@@ -14,6 +14,7 @@ const config: Config = {
         },
         dark: {
           lightest: '#FAFAFA',
+          lighter: '#F1F1F1',
           light: '#303030',
           default: '#000000',
         }
