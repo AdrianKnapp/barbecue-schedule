@@ -1,0 +1,11 @@
+.input-wrapper {
+  @apply flex flex-col gap-4 w-full;
+
+  .label {
+    @apply text-lg font-bold;
+  }
+
+  .input {
+    @apply py-3.5 px-5 rounded-none placeholder:italic placeholder:text-dark-default placeholder:text-base;
+  }
+}

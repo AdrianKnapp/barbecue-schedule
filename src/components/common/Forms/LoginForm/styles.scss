@@ -1,0 +1,7 @@
+.login-form-wrapper {
+  @apply flex flex-col gap-9 max-w-xs mx-auto;
+
+  .button {
+    @apply mt-9;
+  }
+}
