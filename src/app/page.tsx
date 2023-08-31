@@ -1,10 +1,10 @@
-import Button from '@/components/ui/Button';
+import Logo from '@/components/common/Logo';
 
 const Home = () => {
   return (
-    <div>
+    <div className="content-container">
       <p>Home</p>
-      <Button>Button test</Button>
+      <Logo />
     </div>
   );
 };

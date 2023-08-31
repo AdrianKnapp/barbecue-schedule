@@ -2,9 +2,9 @@ import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
 import Link from 'next/link';
 
-const RegisterForm = () => {
+const Register = () => {
   return (
-    <div className="register-form-wrapper">
+    <>
       <InputText id="email" label="Login" placeholder="e-mail" />
       <InputText id="password" label="Senha" placeholder="senha" type="password" />
       <InputText
@@ -17,11 +17,11 @@ const RegisterForm = () => {
       <div className="buttons-wrapper">
         <Button>Registrar</Button>
         <p className="alternative-link">
-          Já possui uma conta? <Link href="/login">Faça login</Link>
+          Já possui uma conta? <Link href="/user/login">Faça login</Link>
         </p>
       </div>
-    </div>
+    </>
   );
 };
 
-export default RegisterForm;
+export default Register;

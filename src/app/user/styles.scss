@@ -1,0 +1,19 @@
+.user-layout {
+  @apply bg-gradient-to-t from-primary-default from-80% ;
+
+  .forms-container {
+    @apply flex flex-col gap-9 max-w-[282px] mx-auto;
+  
+    .buttons-wrapper {
+      @apply flex flex-col gap-5;
+    }
+  
+    .button.primary {
+      @apply mt-9;
+    }
+  
+    .alternative-link {
+      @apply text-center text-base text-dark-light;
+    }
+  }
+}
