@@ -1,3 +1,11 @@
 .button {
-  @apply p-4 w-full bg-dark-default text-white rounded-[18px] font-bold;
+  @apply p-4 w-full bg-dark-default text-white rounded-[18px] font-bold duration-default;
+
+  &.primary {
+    @apply hover:bg-dark-light;
+  }
+
+  &.outline {
+    @apply bg-transparent outline-2 outline-dark-default border-black text-black hover:bg-dark-default hover:text-white -outline-offset-2 focus:bg-dark-default focus:text-white;
+  }
 }

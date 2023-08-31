@@ -13,9 +13,13 @@ const config: Config = {
           default: '#FFD836',
         },
         dark: {
+          light: '#303030',
           default: '#000000',
         }
       },
+      transitionDuration: {
+        default: '200ms',
+      }
     },
   },
   plugins: [require('tailwind-gradient-mask-image')],
