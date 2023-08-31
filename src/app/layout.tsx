@@ -1,7 +1,7 @@
+import HeaderImage from '@/components/common/HeaderImage';
 import '@/styles/globals.scss';
 import type { Metadata } from 'next';
 import { Raleway } from 'next/font/google';
-import Image from 'next/image';
 
 const raleway = Raleway({ subsets: ['latin'] });
 
@@ -14,18 +14,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={raleway.className}>
-        <div className="relative flex flex-col w-[636px] mx-auto bg-primary-default shadow-lg mt-10 mb-10 overflow-hidden">
-          <div className="absolute top-0 left-0 pointer-events-none">
-            <Image
-              src="/barbecue-pattern.svg"
-              alt="background-pattern"
-              className="w-full h-full"
-              width={200}
-              height={200}
-            />
-          </div>
-          <div className="relative z-10">
-            <h1 className="text-3xl text-center mt-20 mb-24 font-extrabold">Agenda de Churras</h1>
+        <div className="home-layout-container">
+          <HeaderImage />
+          <div className="home-layout-content">
+            <h1 className="page-title">Agenda de Churras</h1>
             {children}
           </div>
         </div>
