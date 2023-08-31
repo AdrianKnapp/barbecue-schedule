@@ -6,6 +6,6 @@
   }
 
   &.outline {
-    @apply bg-transparent outline-2 outline-dark-default border-black text-black hover:bg-dark-default hover:text-white -outline-offset-2 focus:bg-dark-default focus:text-white;
+    @apply bg-transparent outline-2 outline-dark-default text-black hover:bg-dark-default hover:text-white -outline-offset-2 focus:bg-dark-default focus:text-white focus:ring-0 focus:outline-none;
   }
 }

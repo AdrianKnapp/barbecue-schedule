@@ -14,7 +14,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={raleway.className}>
-        <div className="relative flex flex-col w-[636px] min-h-[800px] mx-auto bg-primary-default shadow-lg mt-10 mb-10">
+        <div className="relative flex flex-col w-[636px] mx-auto bg-primary-default shadow-lg mt-10 mb-10">
           <div className="absolute top-0 left-0 gradient-mask-b-60 pointer-events-none">
             <Image
               src="/barbecue-pattern.svg"
@@ -27,6 +27,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="relative z-10">
             <h1 className="text-3xl text-center mt-20 mb-24 font-extrabold">Agenda de Churras</h1>
             {children}
+          </div>
+          <div className="w-12 h-12 mx-auto mb-7 mt-[120px]">
+            <Image src="/logo.svg" alt="logo" className="w-full h-full" width={48} height={48} />
           </div>
         </div>
       </body>

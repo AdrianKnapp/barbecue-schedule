@@ -3,3 +3,7 @@
 @tailwind utilities;
 
 @import './styles.scss';
+
+a {
+  @apply underline focus:underline duration-default focus:outline-none focus:ring-1 focus:ring-dark-light;
+}

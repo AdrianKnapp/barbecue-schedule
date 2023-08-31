@@ -16,10 +16,14 @@ const button = tv({
 type ButtonProps = {
   children: React.ReactNode;
   variant?: keyof typeof button.variants.color;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({ variant, children }: ButtonProps) => {
-  return <button className={button({ color: variant })}>{children}</button>;
+const Button = ({ variant, children, ...props }: ButtonProps) => {
+  return (
+    <button className={button({ color: variant })} {...props}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;
