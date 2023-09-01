@@ -1,0 +1,33 @@
+.guest-item {
+  @apply flex justify-between border-b border-primary-default p-2 overflow-hidden;
+
+  &:hover {
+    .edit-icon-wrapper {
+      @apply mr-0;
+    }
+  }
+
+  .checkbox-container {
+    @apply flex gap-5 items-center;
+  }
+
+  .guest-name {
+    @apply font-size-default font-bold cursor-pointer;
+  }
+
+  .price {
+    @apply font-size-default font-bold;
+  }
+
+  .infos-section {  
+    @apply flex gap-5 items-center;
+  }
+
+  .edit-icon-wrapper {
+    @apply p-1.5 cursor-pointer rounded-full duration-default hover:bg-primary-darker hover:text-white -mr-12;
+
+    svg {
+      @apply w-5 h-5;
+    }
+  }
+}

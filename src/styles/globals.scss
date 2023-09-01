@@ -4,6 +4,12 @@
 
 @import './styles.scss';
 
+@layer components {
+  .font-size-default {
+    @apply text-[16px] md:text-[21px];
+  }
+}
+
 a {
   @apply underline focus:underline duration-default focus:outline-none focus:ring-1 focus:ring-dark-light;
 }

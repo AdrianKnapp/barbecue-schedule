@@ -1,0 +1,27 @@
+.create-barbecue-form {
+  @apply flex flex-col gap-4;
+
+  .title {
+    @apply font-size-default font-extrabold text-center text-primary-darker;
+  }
+
+  .input {
+    @apply border border-dark-default;
+  }
+
+  .add-guests-title {
+    @apply text-xl font-normal text-center mt-5;
+  }
+
+  .add-guest-fields {
+    @apply grid grid-cols-[2fr,1fr] gap-4;
+  }
+
+  .button {
+    @apply rounded-none;
+  }
+
+  .finish-button {
+    @apply mt-5;
+  }
+}
