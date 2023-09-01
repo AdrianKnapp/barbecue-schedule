@@ -1,0 +1,11 @@
+.editor-container {
+  .input-wrapper {
+    @apply gap-1;
+  }
+}
+
+.select-contribution {
+  &-title {
+    @apply font-size-default text-lg font-bold;
+  }
+}

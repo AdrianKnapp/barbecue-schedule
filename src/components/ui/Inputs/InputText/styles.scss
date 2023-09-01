@@ -2,7 +2,7 @@
   @apply flex flex-col gap-4 w-full;
 
   .label {
-    @apply text-lg font-bold;
+    @apply text-lg font-bold w-fit;
   }
 
   .input {
