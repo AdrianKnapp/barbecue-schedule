@@ -12,7 +12,7 @@ type BarbecueCardProps = {
 
 const BarbecueCard = ({ date, description, guests, price }: BarbecueCardProps) => {
   return (
-    <Link href="/barbecue/123" className="barbecue-card">
+    <Link href="/123" className="barbecue-card">
       <BarbecueDate date={date} />
       <p className="description">{description}</p>
       <div className="infos">

@@ -23,7 +23,7 @@ const AddGuest = () => {
         <p className="select-contribution-title">Contribuição</p>
         <Listbox value={selected} onChange={setSelected}>
           <div className="relative mt-1">
-            <Listbox.Button className="py-3.5 px-5 border border-dark-default w-full text-left focus:ring-2 focus:ring-dark-default outline-none">
+            <Listbox.Button className="py-3.5 px-5 border border-dark-default w-full text-left focus:ring-2 ring-dark-default outline-none aria-expanded:ring-2">
               <span className="block truncate">{selected.name}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-5">
                 <svg

@@ -4,10 +4,6 @@
 .barbecue-guests-list-container {
   @apply flex flex-col w-full;
 
-  .guests-list-title {
-    @apply text-center font-size-default font-bold mb-4;
-  }
-
   .add-guest-wrapper {
     @apply flex gap-5 cursor-pointer items-center px-2 py-3 duration-default;
 

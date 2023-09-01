@@ -2,6 +2,7 @@ import HeaderImage from '@/components/common/HeaderImage';
 import '@/styles/globals.scss';
 import type { Metadata } from 'next';
 import { Raleway } from 'next/font/google';
+import Link from 'next/link';
 
 const raleway = Raleway({ subsets: ['latin'] });
 
@@ -17,7 +18,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="home-layout-container">
           <HeaderImage />
           <div className="home-layout-content">
-            <h1 className="page-title">Agenda de Churras</h1>
+            <Link href="/" className="no-underline focus:no-underline">
+              <h1 className="page-title">Agenda de Churras</h1>
+            </Link>
             {children}
           </div>
         </div>

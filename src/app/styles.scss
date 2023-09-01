@@ -1,8 +1,14 @@
 .content-container {
   @apply flex flex-col bg-dark-lightest h-full px-6;
 
-  .barbecues-wrapper {
-    @apply grid grid-cols-2 gap-6 -mt-12;
+  &.home-page {
+    .content-wrapper {
+      @apply grid grid-cols-2 gap-6;
+    }
+  }
+
+  .content-wrapper {
+    @apply -mt-12;
   }
 }
 

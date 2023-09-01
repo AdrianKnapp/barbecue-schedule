@@ -2,6 +2,18 @@
   .input-wrapper {
     @apply gap-1;
   }
+
+  .input {
+    @apply border border-dark-default;
+  }
+
+  .button {
+    @apply rounded-none;
+  }
+
+  .finish-button {
+    @apply mt-5;
+  }
 }
 
 .select-contribution {

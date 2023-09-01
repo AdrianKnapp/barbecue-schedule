@@ -9,19 +9,15 @@
     @apply border border-dark-default;
   }
 
+  .guests-list-title {
+    @apply text-center font-size-default font-bold mb-4;
+  }
+
   .add-guests-title {
     @apply text-xl font-normal text-center mt-5;
   }
 
   .add-guest-fields {
     @apply grid grid-cols-[2fr,1fr] gap-4;
-  }
-
-  .button {
-    @apply rounded-none;
-  }
-
-  .finish-button {
-    @apply mt-5;
   }
 }

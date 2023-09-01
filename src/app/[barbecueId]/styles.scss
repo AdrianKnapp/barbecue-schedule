@@ -1,0 +1,25 @@
+.barbecue-page {
+  .content-wrapper {
+    @apply bg-white px-6 py-5;
+  }
+
+  .details {
+    @apply flex flex-col gap-2;
+
+    &-row {
+      @apply flex justify-between;
+    }
+  }
+
+  .barbecue-title {
+    @apply text-[28px] font-bold;
+  }
+
+  .barbecue-guests-list-container {
+    @apply mt-8;
+  }
+
+  .logo-wrapper {
+    @apply mt-8;
+  }
+}
