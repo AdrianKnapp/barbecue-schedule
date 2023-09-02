@@ -70,10 +70,10 @@ const AddGuest = () => {
         </Listbox>
       </div>
       <div className="editor-button-group">
-        <Button>Adicionar</Button>
         <Button variant="outline" onClick={handleToggleEditMode}>
           Cancelar
         </Button>
+        <Button>Adicionar</Button>
       </div>
     </div>
   ) : (

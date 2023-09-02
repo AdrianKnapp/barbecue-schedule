@@ -6,11 +6,11 @@ import Image from 'next/image';
 
 type GuestProps = {
   name: string;
-  price: number;
+  contribution: number;
   id: string;
 };
 
-const Guest = ({ name, price, id }: GuestProps) => {
+const Guest = ({ name, contribution, id }: GuestProps) => {
   return (
     <div className="guest-item">
       <div className="checkbox-container">
@@ -20,7 +20,7 @@ const Guest = ({ name, price, id }: GuestProps) => {
         </label>
       </div>
       <div className="infos-section">
-        <p className="price">{priceFormatter.format(price)}</p>
+        <p className="price">{priceFormatter.format(contribution)}</p>
         <div className="edit-icon-wrapper">
           <svg
             xmlns="http://www.w3.org/2000/svg"

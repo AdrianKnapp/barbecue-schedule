@@ -9,8 +9,16 @@
     @apply border border-dark-default;
   }
 
+  .button {
+    @apply rounded-none;
+
+    &[type="submit"] {
+      @apply mt-5;
+    }
+  }
+
   .guests-list-title {
-    @apply text-center font-size-default font-bold mb-4;
+    @apply text-center font-size-default font-bold;
   }
 
   .add-guests-title {
