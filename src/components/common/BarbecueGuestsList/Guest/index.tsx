@@ -1,16 +1,16 @@
 import Checkbox from '@/components/ui/Inputs/Checkbox';
-import { Guest } from '@/types/guest';
+import { type GuestModel } from '@/types/guest';
 import priceFormatter from '@/utils/price-formatter';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent } from 'react';
+import { type ChangeEvent } from 'react';
 
-type GuestProps = {
-  guest: Guest;
+interface GuestProps {
+  guest: GuestModel;
   barbecueId: string;
-  guests: Guest[];
-};
+  guests: GuestModel[];
+}
 
-const updateGuest = async (guests: Guest[], barbecueId: string) => {
+const updateGuest = async (guests: GuestModel[], barbecueId: string) => {
   try {
     const paidGuests = guests.filter((guest) => guest.paid);
 
@@ -36,12 +36,12 @@ const Guest = ({ barbecueId, guests, guest }: GuestProps) => {
 
     const newGuests = [...guests];
 
-    const guestUpdated = {
+    const guestUpdated: GuestModel = {
       id,
       name,
       contribution,
       paid: e.target.checked,
-    } as Guest;
+    };
 
     newGuests[guestIndex] = guestUpdated;
 

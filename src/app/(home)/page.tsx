@@ -1,9 +1,11 @@
 import BarbecueCard from '@/components/common/BarbecueCard';
 import CreateBarbecueCard from '@/components/common/CreateBarbecueCard';
-import { Barbecue } from '@/types/barbecue';
+import { type BarbecueModel } from '@/types/barbecue';
+
+export const dynamic = 'force-dynamic';
 
 type BarbecuesResponse = {
-  barbecues: Barbecue[];
+  barbecues: BarbecueModel[];
 };
 
 const getBarbecues = async (): Promise<BarbecuesResponse> => {

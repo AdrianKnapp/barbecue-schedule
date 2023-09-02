@@ -3,7 +3,7 @@
 import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
 import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 
 type Inputs = {
   email: string;
@@ -16,7 +16,9 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

@@ -2,8 +2,7 @@ import BarbecueDate from '@/components/common/BarbecueDate';
 import BarbecueGuests from '@/components/common/BarbecueGuests';
 import BarbecueGuestsList from '@/components/common/BarbecueGuestsList';
 import BarbecuePrice from '@/components/common/BarbecuePrice';
-import Logo from '@/components/common/Logo';
-import { Barbecue } from '@/types/barbecue';
+import { type BarbecueModel } from '@/types/barbecue';
 
 type PageProps = {
   params: {
@@ -12,7 +11,7 @@ type PageProps = {
 };
 
 type BarbecueResponse = {
-  barbecue?: Barbecue;
+  barbecue?: BarbecueModel;
 };
 
 export const generateMetadata = () => {

@@ -3,7 +3,7 @@
 import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
 import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 
 type Inputs = {
   email: string;
@@ -18,7 +18,9 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -49,7 +51,7 @@ const Register = () => {
         {...register('passwordConfirmation', {
           required: true,
           validate: (value: string) => {
-            if (watch('password') != value) {
+            if (watch('password') !== value) {
               return 'As senhas não coincidem.';
             }
           },

@@ -1,20 +1,23 @@
-import connectMongoDB from '@/libs/mongodb'
+import connectMongoDB from '@/libs/mongodb';
 import Barbecue from '@/models/barbecue';
-import { type Barbecue as BarbecueModel } from '@/types/barbecue';
-import { NextResponse } from 'next/server'
+import { type BarbecueModel } from '@/types/barbecue';
+import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   await connectMongoDB();
 
   const barbecues = await Barbecue.find();
 
-  return NextResponse.json({ barbecues }, {
-    status: 200,
-  })
+  return NextResponse.json(
+    { barbecues },
+    {
+      status: 200,
+    },
+  );
 }
 
 export async function POST(request: Request) {
-  const barbecue = await request.json() as BarbecueModel;
+  const barbecue = (await request.json()) as BarbecueModel;
 
   await connectMongoDB();
 
@@ -22,14 +25,17 @@ export async function POST(request: Request) {
   dateArray.shift();
   const date = dateArray.reverse().join('/');
 
-  const createdBarbecue = await Barbecue.create({
+  const createdBarbecue: BarbecueModel = await Barbecue.create({
     ...barbecue,
     amountRaised: barbecue.guests.reduce((acc, guest) => acc + guest.contribution, 0),
     userId: '123',
     date,
-  } as BarbecueModel);
+  });
 
-  return NextResponse.json({ barbecue: createdBarbecue }, {
-    status: 201,
-  })
+  return NextResponse.json(
+    { barbecue: createdBarbecue },
+    {
+      status: 201,
+    },
+  );
 }

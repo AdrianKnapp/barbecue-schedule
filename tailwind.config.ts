@@ -18,11 +18,11 @@ const config: Config = {
           lighter: '#F1F1F1',
           light: '#303030',
           default: '#000000',
-        }
+        },
       },
       transitionDuration: {
         default: '200ms',
-      }
+      },
     },
   },
   plugins: [],

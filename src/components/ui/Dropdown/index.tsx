@@ -1,6 +1,5 @@
-import { Dialog, Menu, Transition } from '@headlessui/react';
-import Image from 'next/image';
-import { ElementType, Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
 type ModalProps = {
   button: React.ReactNode;

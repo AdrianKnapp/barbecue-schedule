@@ -1,21 +1,21 @@
 import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
-import { Barbecue } from '@/types/barbecue';
-import { Guest } from '@/types/guest';
+import { type BarbecueModel } from '@/types/barbecue';
+import { type GuestModel } from '@/types/guest';
 import priceFormatter from '@/utils/price-formatter';
 import { Listbox, Transition } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 
 type Inputs = {
   name: string;
 };
 
 type AddGuestProps = {
-  price: Barbecue['price'];
+  price: BarbecueModel['price'];
   barbecueId: string;
-  guests: Guest[];
+  guests: GuestModel[];
 };
 
 const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
@@ -49,16 +49,16 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
 
   const onSubmit: SubmitHandler<Inputs> = async (fields) => {
     try {
-      const newGuest = {
+      const newGuest: GuestModel = {
         id: Math.random().toString(36).substr(2, 9),
         name: fields.name,
         contribution: selected.value,
         paid: false,
-      } as Guest;
+      };
 
-      const data = {
+      const data: Pick<BarbecueModel, 'guests'> = {
         guests: [...guests, newGuest],
-      } as Pick<Barbecue, 'guests'>;
+      };
 
       await fetch(`/api/barbecues/${barbecueId}`, {
         method: 'PATCH',

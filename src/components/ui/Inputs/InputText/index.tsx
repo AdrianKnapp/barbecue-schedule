@@ -1,5 +1,5 @@
-import { LegacyRef, forwardRef } from 'react';
-import { FieldError } from 'react-hook-form';
+import { type LegacyRef, forwardRef } from 'react';
+import { type FieldError } from 'react-hook-form';
 
 type InputTextProps = {
   id: string;
@@ -10,7 +10,7 @@ type InputTextProps = {
 
 const InputText = forwardRef(
   ({ id, label, error, errorMessage, ...props }: InputTextProps, ref: LegacyRef<HTMLInputElement>) => {
-    const errorText = errorMessage && errorMessage.length ? errorMessage : 'Campo obrigatório.';
+    const errorText = errorMessage?.length ? errorMessage : 'Campo obrigatório.';
 
     return (
       <div className="input-wrapper">
@@ -25,5 +25,7 @@ const InputText = forwardRef(
     );
   },
 );
+
+InputText.displayName = 'InputText';
 
 export default InputText;

@@ -1,16 +1,17 @@
 import connectMongoDB from '@/libs/mongodb';
 import Barbecue from '@/models/barbecue';
-import { type Barbecue as BarbecueModel } from '@/types/barbecue';
-import priceFormatter from '@/utils/price-formatter';
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 
-export async function GET(request: Request, {
-  params
-}: {
-  params: {
-    id: string
-  }
-} ) {
+export async function GET(
+  request: Request,
+  {
+    params,
+  }: {
+    params: {
+      id: string;
+    };
+  },
+) {
   const { id } = params;
 
   await connectMongoDB();
@@ -21,20 +22,28 @@ export async function GET(request: Request, {
 
   const barbecue = response.toObject();
 
-  return NextResponse.json({ barbecue: {
-    ...barbecue,
-  } as BarbecueModel }, {
-    status: 200,
-  })
+  return NextResponse.json(
+    {
+      barbecue: {
+        ...barbecue,
+      },
+    },
+    {
+      status: 200,
+    },
+  );
 }
 
-export async function PATCH(request: Request, {
-  params
-}: {
-  params: {
-    id: string
-  }
-} ) {
+export async function PATCH(
+  request: Request,
+  {
+    params,
+  }: {
+    params: {
+      id: string;
+    };
+  },
+) {
   const { id } = params;
 
   const data = await request.json();
@@ -43,9 +52,12 @@ export async function PATCH(request: Request, {
 
   await Barbecue.findByIdAndUpdate(id, data);
 
-  return NextResponse.json({
-    message: 'Barbecue updated successfully.'
-  }, {
-    status: 200,
-  })
+  return NextResponse.json(
+    {
+      message: 'Barbecue updated successfully.',
+    },
+    {
+      status: 200,
+    },
+  );
 }

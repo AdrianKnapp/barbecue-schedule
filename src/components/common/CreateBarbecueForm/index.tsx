@@ -1,10 +1,8 @@
 import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
-import BarbecueGuestsList from '../BarbecueGuestsList';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState } from 'react';
-import { Barbecue } from '@/types/barbecue';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { type BarbecueModel } from '@/types/barbecue';
 
 type Inputs = {
   name: string;
@@ -29,7 +27,7 @@ const CreateBarbecueForm = ({ closeModal }: CreateBarbecueFormProps) => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const barbecue = {
+      const barbecue: Omit<BarbecueModel, '_id' | 'amountRaised' | 'userId'> = {
         name: data.name,
         date: data.date,
         description: data.description,
@@ -38,7 +36,7 @@ const CreateBarbecueForm = ({ closeModal }: CreateBarbecueFormProps) => {
           drinkIncluded: Number(data.priceDrinkIncluded),
           drinkNotIncluded: Number(data.priceDrinkNotIncluded),
         },
-      } as Omit<Barbecue, '_id' | 'amountRaised' | 'userId'>;
+      };
 
       await fetch('/api/barbecues', {
         method: 'POST',

@@ -2,12 +2,12 @@
 
 import Guest from './Guest';
 import AddGuest from './AddGuest';
-import { type Guest as GuestModel } from '@/types/guest';
-import { Barbecue } from '@/types/barbecue';
+import { type GuestModel } from '@/types/guest';
+import { type BarbecueModel } from '@/types/barbecue';
 
 type BarbecueGuestsListProps = {
   guests: GuestModel[];
-  price: Barbecue['price'];
+  price: BarbecueModel['price'];
   barbecueId: string;
 };
 

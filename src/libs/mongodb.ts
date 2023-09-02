@@ -8,6 +8,6 @@ const connectMongoDB = async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export default connectMongoDB;

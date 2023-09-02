@@ -1,6 +1,6 @@
-import { Guest } from "./guest";
+import { type GuestModel } from './guest';
 
-type Barbecue = {
+type BarbecueModel = {
   _id: string;
   userId: string;
   date: string;
@@ -11,5 +11,5 @@ type Barbecue = {
     drinkNotIncluded: number;
   };
   amountRaised: number;
-  guests: Guest[];
+  guests: GuestModel[];
 };

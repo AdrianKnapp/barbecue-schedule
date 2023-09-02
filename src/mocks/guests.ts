@@ -1,8 +1,8 @@
-import { Guest } from "@/types/guest";
+import { type GuestModel } from '@/types/guest';
 
-export const guestMock: Guest = {
+export const guestMock: GuestModel = {
   id: '1',
   contribution: 50,
   name: 'João',
   paid: false,
-}
+};
