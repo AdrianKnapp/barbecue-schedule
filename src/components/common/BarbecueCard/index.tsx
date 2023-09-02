@@ -4,7 +4,7 @@ import BarbecueGuests from '../BarbecueGuests';
 import BarbecuePrice from '../BarbecuePrice';
 
 type BarbecueCardProps = {
-  id: number;
+  id: string;
   date: string;
   description: string;
   guests: number;
