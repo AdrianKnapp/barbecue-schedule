@@ -14,7 +14,6 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
@@ -24,28 +23,28 @@ const Login = () => {
       <InputText
         defaultValue="email"
         {...register('email', {
-          required: false,
+          required: true,
         })}
         id="email"
         label="Login"
         placeholder="e-mail"
+        error={errors.email}
       />
-      {errors.email && <span>This field is required</span>}
       <InputText
         {...register('password', {
-          required: false,
+          required: true,
         })}
         id="password"
         label="Senha"
         placeholder="senha"
         type="password"
+        error={errors.password}
       />
-      {errors.password && <span>This field is required</span>}
 
       <div className="buttons-wrapper">
         <Button type="submit">Entrar</Button>
         <p className="alternative-link">
-          Não possui uma conta? <Link href="/user/register">Cadastre-se</Link>
+          Não possui uma conta? <Link href="/register">Cadastre-se</Link>
         </p>
       </div>
     </form>
