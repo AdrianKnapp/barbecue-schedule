@@ -1,5 +1,3 @@
-'use client';
-
 import BarbecueDate from '@/components/common/BarbecueDate';
 import BarbecueGuests from '@/components/common/BarbecueGuests';
 import BarbecueGuestsList from '@/components/common/BarbecueGuestsList';
@@ -15,6 +13,14 @@ type PageProps = {
 
 type BarbecueResponse = {
   barbecue?: Barbecue;
+};
+
+export const generateMetadata = () => {
+  return {
+    title: 'Barbecue',
+    description: 'Barbecue description',
+    image: 'https://barbecue.com/image.png',
+  };
 };
 
 const getBarbecueById = async (id: string): Promise<BarbecueResponse> => {
@@ -41,22 +47,19 @@ const Page = async ({ params }: PageProps) => {
   }
 
   return (
-    <div className="content-container barbecue-page">
-      <div className="content-wrapper">
-        <div className="details">
-          <div className="details-row">
-            <BarbecueDate date={barbecue.date} />
-            <BarbecueGuests quantity={barbecue.guests.length} />
-          </div>
-          <div className="details-row">
-            <p className="barbecue-title">{barbecue.name}</p>
-            <BarbecuePrice price={barbecue.amountRaised} />
-          </div>
+    <div className="barbecue-content">
+      <div className="details">
+        <div className="details-row">
+          <BarbecueDate date={barbecue.date} />
+          <BarbecueGuests quantity={barbecue.guests.length} />
         </div>
-
-        <BarbecueGuestsList />
+        <div className="details-row">
+          <p className="barbecue-title">{barbecue.name}</p>
+          <BarbecuePrice price={barbecue.amountRaised} />
+        </div>
       </div>
-      <Logo />
+
+      <BarbecueGuestsList />
     </div>
   );
 };

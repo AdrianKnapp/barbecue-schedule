@@ -1,7 +1,5 @@
-.barbecue-page {
-  .content-wrapper {
-    @apply bg-white px-6 py-5;
-  }
+.barbecue-content {
+  @apply bg-white px-6 py-5;
 
   .details {
     @apply flex flex-col gap-2;

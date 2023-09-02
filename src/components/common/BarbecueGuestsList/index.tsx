@@ -1,3 +1,5 @@
+'use client';
+
 import Guest from './Guest';
 import AddGuest from './AddGuest';
 

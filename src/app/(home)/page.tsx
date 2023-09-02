@@ -20,27 +20,31 @@ const getBarbecues = async (): Promise<BarbecuesResponse> => {
   }
 };
 
+export const metadata = {
+  title: {
+    default: 'Agenda de Churras',
+    template: '%s | Agenda de Churras',
+  },
+};
+
 const Home = async () => {
   const data = await getBarbecues();
 
   const { barbecues } = data;
 
   return (
-    <div className="content-container home-page">
-      <div className="content-wrapper">
-        {barbecues.map((barbecue) => (
-          <BarbecueCard
-            key={barbecue.id}
-            id={barbecue.id}
-            date={barbecue.date}
-            description={barbecue.description}
-            guests={barbecue.guests.length}
-            amountRaised={barbecue.amountRaised}
-          />
-        ))}
-        <CreateBarbecueCard />
-      </div>
-      <Logo />
+    <div className="home-page">
+      {barbecues.map((barbecue) => (
+        <BarbecueCard
+          key={barbecue.id}
+          id={barbecue.id}
+          date={barbecue.date}
+          description={barbecue.description}
+          guests={barbecue.guests.length}
+          amountRaised={barbecue.amountRaised}
+        />
+      ))}
+      <CreateBarbecueCard />
     </div>
   );
 };
