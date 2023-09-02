@@ -1,26 +1,65 @@
-import Dropdown from '@/components/ui/Dropdown';
 import Checkbox from '@/components/ui/Inputs/Checkbox';
+import { Guest } from '@/types/guest';
 import priceFormatter from '@/utils/price-formatter';
-import { Menu } from '@headlessui/react';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent } from 'react';
 
 type GuestProps = {
-  name: string;
-  contribution: number;
-  id: string;
+  guest: Guest;
+  barbecueId: string;
+  guests: Guest[];
 };
 
-const Guest = ({ name, contribution, id }: GuestProps) => {
+const updateGuest = async (guests: Guest[], barbecueId: string) => {
+  try {
+    const paidGuests = guests.filter((guest) => guest.paid);
+
+    await fetch(`/api/barbecues/${barbecueId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        amountRaised: paidGuests.reduce((acc, guest) => acc + guest.contribution, 0),
+        guests,
+      }),
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const Guest = ({ barbecueId, guests, guest }: GuestProps) => {
+  const router = useRouter();
+
+  const { id, name, contribution, paid } = guest;
+
+  const handleCheckboxChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const guestIndex = guests.findIndex((guest) => guest.id === id);
+
+    const newGuests = [...guests];
+
+    const guestUpdated = {
+      id,
+      name,
+      contribution,
+      paid: e.target.checked,
+    } as Guest;
+
+    newGuests[guestIndex] = guestUpdated;
+
+    await updateGuest(newGuests, barbecueId);
+
+    router.refresh();
+  };
+
   return (
     <div className="guest-item">
       <div className="checkbox-container">
-        <Checkbox id={id} />
+        <Checkbox id={id} onChange={handleCheckboxChange} defaultChecked={paid} />
         <label htmlFor={id} className="guest-name">
           {name}
         </label>
       </div>
       <div className="infos-section">
-        <p className="price">{contribution}</p>
+        <p className="price">{priceFormatter.format(contribution)}</p>
         <div className="edit-icon-wrapper">
           <svg
             xmlns="http://www.w3.org/2000/svg"

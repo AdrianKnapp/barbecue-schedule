@@ -21,17 +21,8 @@ export async function GET(request: Request, {
 
   const barbecue = response.toObject();
 
-  const { price: {
-    drinkIncluded,
-    drinkNotIncluded,
-  } } = barbecue;
-
   return NextResponse.json({ barbecue: {
     ...barbecue,
-    price: {
-      drinkIncluded: priceFormatter.format(drinkIncluded),
-      drinkNotIncluded: priceFormatter.format(drinkNotIncluded),
-    }
   } as BarbecueModel }, {
     status: 200,
   })

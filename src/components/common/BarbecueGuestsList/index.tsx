@@ -14,8 +14,8 @@ type BarbecueGuestsListProps = {
 const BarbecueGuestsList = ({ guests = [], price, barbecueId }: BarbecueGuestsListProps) => {
   return (
     <div className="barbecue-guests-list-container">
-      {guests.map(({ id, name, contribution }) => (
-        <Guest key={id} id={id} name={name} contribution={contribution} />
+      {guests.map((guest) => (
+        <Guest key={guest.id} guest={guest} guests={guests} barbecueId={barbecueId} />
       ))}
       <AddGuest barbecueId={barbecueId} price={price} guests={guests} />
     </div>

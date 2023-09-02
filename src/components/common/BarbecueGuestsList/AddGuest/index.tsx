@@ -2,6 +2,7 @@ import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
 import { Barbecue } from '@/types/barbecue';
 import { Guest } from '@/types/guest';
+import priceFormatter from '@/utils/price-formatter';
 import { Listbox, Transition } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
@@ -31,12 +32,12 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
     {
       id: 1,
       value: price.drinkNotIncluded,
-      name: `Preço sem bebida incluída (${price.drinkNotIncluded})`,
+      name: `Preço sem bebida incluída (${priceFormatter.format(price.drinkNotIncluded)})`,
     },
     {
       id: 2,
       value: price.drinkIncluded,
-      name: `Preço com bebida incluída (${price.drinkIncluded})`,
+      name: `Preço com bebida incluída (${priceFormatter.format(price.drinkIncluded)})`,
     },
   ];
 
@@ -49,6 +50,7 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
   const onSubmit: SubmitHandler<Inputs> = async (fields) => {
     try {
       const newGuest = {
+        id: Math.random().toString(36).substr(2, 9),
         name: fields.name,
         contribution: selected.value,
         paid: false,
