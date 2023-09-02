@@ -59,7 +59,7 @@ const Register = () => {
       />
 
       <div className="buttons-wrapper">
-        <Button>Registrar</Button>
+        <Button type="submit">Registrar</Button>
         <p className="alternative-link">
           Já possui uma conta? <Link href="/login">Faça login</Link>
         </p>

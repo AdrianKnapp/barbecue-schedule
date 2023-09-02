@@ -22,12 +22,12 @@ const Login = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <InputText
         defaultValue="email"
-        {...register('email', {
-          required: true,
-        })}
         id="email"
         label="Login"
         placeholder="e-mail"
+        {...register('email', {
+          required: true,
+        })}
         error={errors.email}
       />
       <InputText

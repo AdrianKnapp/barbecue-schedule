@@ -1,5 +1,5 @@
 export type Guest = {
-  id: number;
+  id: string;
   name: string;
   contribution: number;
   paid: boolean;

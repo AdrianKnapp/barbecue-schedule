@@ -2,13 +2,18 @@
 
 import Guest from './Guest';
 import AddGuest from './AddGuest';
+import { type Guest as GuestModel } from '@/types/guest';
 
-const BarbecueGuestsList = () => {
+type BarbecueGuestsListProps = {
+  guests: GuestModel[];
+};
+
+const BarbecueGuestsList = ({ guests = [] }: BarbecueGuestsListProps) => {
   return (
     <div className="barbecue-guests-list-container">
-      <Guest name="João" price={20} id="1" />
-      <Guest name="Maria" price={10} id="2" />
-      <Guest name="Julia" price={20} id="3" />
+      {guests.map(({ id, name, contribution }) => (
+        <Guest key={id} id={id} name={name} contribution={contribution} />
+      ))}
       <AddGuest />
     </div>
   );
