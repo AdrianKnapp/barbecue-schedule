@@ -36,8 +36,8 @@ const Home = async () => {
     <div className="home-page">
       {barbecues.map((barbecue) => (
         <BarbecueCard
-          key={barbecue.id}
-          id={barbecue.id}
+          key={barbecue._id}
+          id={barbecue._id}
           date={barbecue.date}
           description={barbecue.description}
           guests={barbecue.guests.length}

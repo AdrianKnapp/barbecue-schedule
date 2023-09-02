@@ -1,7 +1,8 @@
 import { Guest } from "./guest";
 
 type Barbecue = {
-  id: number;
+  _id: string;
+  userId: string;
   date: string;
   name: string;
   description: string;

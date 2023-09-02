@@ -2,9 +2,10 @@ import { Barbecue } from "@/types/barbecue";
 import { guestMock } from "./guests";
 
 export const barbecueMock: Barbecue = {
-  id: 1,
+  _id: '559437a0-49be-11ee-be56-0242ac120002',
+  userId: 'bc47839d-f734-43d2-ae72-372a18eb5106',
   name: 'Churras do João',
-  date: new Date().toISOString(),
+  date: '01/12',
   description: 'Churras do João',
   price: {
     drinkIncluded: 50,
@@ -20,10 +21,10 @@ export const barbecueMock: Barbecue = {
 export const barbecueListMock: Barbecue[] = [
   {
     ...barbecueMock,
-    id: 1,
+    _id: '611ee7aa-49be-11ee-be56-0242ac120002',
   },
   {
     ...barbecueMock,
-    id: 2,
+    _id: '631100f2-49be-11ee-be56-0242ac120002',
   },
 ]

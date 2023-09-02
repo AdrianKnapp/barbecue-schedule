@@ -1,5 +1,6 @@
-import { barbecueListMock } from '@/mocks/barbecue';
-import { NextRequest, NextResponse } from 'next/server'
+import connectMongoDB from '@/libs/mongodb';
+import Barbecue from '@/models/barbecue';
+import { NextResponse } from 'next/server'
 
 export async function GET(request: Request, {
   params
@@ -10,19 +11,35 @@ export async function GET(request: Request, {
 } ) {
   const { id } = params;
 
-  const barbecue = barbecueListMock.find(barbecue => barbecue.id === Number(id));
+  await connectMongoDB();
 
-  if (!barbecue) {
-    return NextResponse.next()
+  const barbecue = await Barbecue.findOne({
+    _id: id,
+  });
+
+  return NextResponse.json({ barbecue }, {
+    status: 200,
+  })
+}
+
+export async function PATCH(request: Request, {
+  params
+}: {
+  params: {
+    id: string
   }
+} ) {
+  const { id } = params;
 
-  const date = new Date(barbecue.date)
+  const data = await request.json();
 
-  const dateFormatted = `${date.getDate()}/${date.getMonth() + 1}`
+  await connectMongoDB();
 
-  return NextResponse.json({ barbecue: {
-    ...barbecue,
-    amountRaised: barbecue.guests.reduce((acc, guest) => acc + guest.contribution, 0),
-    date: dateFormatted,
-  } })
+  await Barbecue.findByIdAndUpdate(id, data);
+
+  return NextResponse.json({
+    message: 'Barbecue updated successfully.'
+  }, {
+    status: 200,
+  })
 }
