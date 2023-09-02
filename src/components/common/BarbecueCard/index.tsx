@@ -4,20 +4,21 @@ import BarbecueGuests from '../BarbecueGuests';
 import BarbecuePrice from '../BarbecuePrice';
 
 type BarbecueCardProps = {
+  id: number;
   date: string;
   description: string;
   guests: number;
-  price: number;
+  amountRaised: number;
 };
 
-const BarbecueCard = ({ date, description, guests, price }: BarbecueCardProps) => {
+const BarbecueCard = ({ id, date, description, guests, amountRaised }: BarbecueCardProps) => {
   return (
-    <Link href="/123" className="barbecue-card">
+    <Link href={`/${id}`} className="barbecue-card">
       <BarbecueDate date={date} />
       <p className="description">{description}</p>
       <div className="infos">
         <BarbecueGuests quantity={guests} />
-        <BarbecuePrice price={price} />
+        <BarbecuePrice price={amountRaised} />
       </div>
     </Link>
   );
