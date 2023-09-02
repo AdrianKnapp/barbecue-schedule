@@ -1,5 +1,7 @@
 import connectMongoDB from '@/libs/mongodb';
 import Barbecue from '@/models/barbecue';
+import { type Barbecue as BarbecueModel } from '@/types/barbecue';
+import priceFormatter from '@/utils/price-formatter';
 import { NextResponse } from 'next/server'
 
 export async function GET(request: Request, {
@@ -13,11 +15,24 @@ export async function GET(request: Request, {
 
   await connectMongoDB();
 
-  const barbecue = await Barbecue.findOne({
+  const response = await Barbecue.findOne({
     _id: id,
   });
 
-  return NextResponse.json({ barbecue }, {
+  const barbecue = response.toObject();
+
+  const { price: {
+    drinkIncluded,
+    drinkNotIncluded,
+  } } = barbecue;
+
+  return NextResponse.json({ barbecue: {
+    ...barbecue,
+    price: {
+      drinkIncluded: priceFormatter.format(drinkIncluded),
+      drinkNotIncluded: priceFormatter.format(drinkNotIncluded),
+    }
+  } as BarbecueModel }, {
     status: 200,
   })
 }

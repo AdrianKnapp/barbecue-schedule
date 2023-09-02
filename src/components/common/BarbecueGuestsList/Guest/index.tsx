@@ -20,7 +20,7 @@ const Guest = ({ name, contribution, id }: GuestProps) => {
         </label>
       </div>
       <div className="infos-section">
-        <p className="price">{priceFormatter.format(contribution)}</p>
+        <p className="price">{contribution}</p>
         <div className="edit-icon-wrapper">
           <svg
             xmlns="http://www.w3.org/2000/svg"

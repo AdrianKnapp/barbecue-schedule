@@ -13,19 +13,7 @@
     @apply rounded-none;
 
     &[type="submit"] {
-      @apply mt-5;
+      @apply mt-2;
     }
-  }
-
-  .guests-list-title {
-    @apply text-center font-size-default font-bold;
-  }
-
-  .add-guests-title {
-    @apply text-xl font-normal text-center mt-5;
-  }
-
-  .add-guest-fields {
-    @apply grid grid-cols-[2fr,1fr] gap-4;
   }
 }

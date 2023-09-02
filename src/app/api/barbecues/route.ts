@@ -18,9 +18,16 @@ export async function POST(request: Request) {
 
   await connectMongoDB();
 
+  const dateArray = barbecue.date.split('-');
+  dateArray.shift();
+  const date = dateArray.reverse().join('/');
+
   const createdBarbecue = await Barbecue.create({
     ...barbecue,
-  });
+    amountRaised: barbecue.guests.reduce((acc, guest) => acc + guest.contribution, 0),
+    userId: '123',
+    date,
+  } as BarbecueModel);
 
   return NextResponse.json({ barbecue: createdBarbecue }, {
     status: 201,

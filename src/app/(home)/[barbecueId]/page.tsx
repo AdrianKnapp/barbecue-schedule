@@ -36,7 +36,6 @@ const getBarbecueById = async (id: string): Promise<BarbecueResponse> => {
 
 const Page = async ({ params }: PageProps) => {
   const { barbecue } = await getBarbecueById(params.barbecueId);
-  console.log('🚀 ~ file: page.tsx:28 ~ Page ~ barbecue:', barbecue);
 
   if (!barbecue) {
     return (
@@ -51,7 +50,7 @@ const Page = async ({ params }: PageProps) => {
       <div className="details">
         <div className="details-row">
           <BarbecueDate date={barbecue.date} />
-          <BarbecueGuests quantity={barbecue.guests.length} />
+          <BarbecueGuests quantity={barbecue?.guests?.length ?? 0} />
         </div>
         <div className="details-row">
           <p className="barbecue-title">{barbecue.name}</p>
@@ -59,7 +58,7 @@ const Page = async ({ params }: PageProps) => {
         </div>
       </div>
 
-      <BarbecueGuestsList />
+      <BarbecueGuestsList guests={barbecue.guests} price={barbecue.price} barbecueId={barbecue._id} />
     </div>
   );
 };

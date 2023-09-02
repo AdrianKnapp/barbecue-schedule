@@ -1,6 +1,5 @@
 import BarbecueCard from '@/components/common/BarbecueCard';
 import CreateBarbecueCard from '@/components/common/CreateBarbecueCard';
-import Logo from '@/components/common/Logo';
 import { Barbecue } from '@/types/barbecue';
 
 type BarbecuesResponse = {
@@ -39,7 +38,7 @@ const Home = async () => {
           key={barbecue._id}
           id={barbecue._id}
           date={barbecue.date}
-          description={barbecue.description}
+          name={barbecue.name}
           guests={barbecue.guests.length}
           amountRaised={barbecue.amountRaised}
         />

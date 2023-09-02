@@ -1,24 +1,86 @@
 import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
+import { Barbecue } from '@/types/barbecue';
+import { Guest } from '@/types/guest';
 import { Listbox, Transition } from '@headlessui/react';
+import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
-const people = [
-  { id: 2, name: 'Valor sem bebida (R$ 20)', unavailable: false },
-  { id: 1, name: 'Valor com bebida incluida (R$ 40)', unavailable: false },
-];
+type Inputs = {
+  name: string;
+};
 
-const AddGuest = () => {
+type AddGuestProps = {
+  price: Barbecue['price'];
+  barbecueId: string;
+  guests: Guest[];
+};
+
+const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
   const [isInEditMode, setIsInEditMode] = useState(false);
-  const [selected, setSelected] = useState(people[0]);
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const priceOptions = [
+    {
+      id: 1,
+      value: price.drinkNotIncluded,
+      name: `Preço sem bebida incluída (${price.drinkNotIncluded})`,
+    },
+    {
+      id: 2,
+      value: price.drinkIncluded,
+      name: `Preço com bebida incluída (${price.drinkIncluded})`,
+    },
+  ];
+
+  const [selected, setSelected] = useState(priceOptions[0]);
 
   const handleToggleEditMode = () => {
     setIsInEditMode((prev) => !prev);
   };
 
+  const onSubmit: SubmitHandler<Inputs> = async (fields) => {
+    try {
+      const newGuest = {
+        name: fields.name,
+        contribution: selected.value,
+        paid: false,
+      } as Guest;
+
+      const data = {
+        guests: [...guests, newGuest],
+      } as Pick<Barbecue, 'guests'>;
+
+      await fetch(`/api/barbecues/${barbecueId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+      });
+
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+    }
+    handleToggleEditMode();
+  };
+
   return isInEditMode ? (
-    <div className="editor-container">
-      <InputText id="editor" label="Nome" placeholder="Fulano" />
+    <form onSubmit={handleSubmit(onSubmit)} className="editor-container">
+      <InputText
+        id="name"
+        label="Nome"
+        placeholder="Pedro"
+        {...register('name', {
+          required: true,
+        })}
+        error={errors.name}
+      />
       <div className="select-contribution">
         <p className="select-contribution-title">Contribuição</p>
         <Listbox value={selected} onChange={setSelected}>
@@ -45,7 +107,7 @@ const AddGuest = () => {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute mt-2 max-h-60 w-full overflow-auto bg-white border border-dark-default shadow-xl">
-                {people.map((person, personIdx) => (
+                {priceOptions.map((option, personIdx) => (
                   <Listbox.Option
                     key={personIdx}
                     className={({ active }) =>
@@ -53,12 +115,12 @@ const AddGuest = () => {
                         active ? 'bg-gray-100' : 'text-gray-900'
                       }`
                     }
-                    value={person}
+                    value={option}
                   >
                     {({ selected }) => (
                       <>
                         <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
-                          {person.name}
+                          {option.name}
                         </span>
                       </>
                     )}
@@ -73,9 +135,9 @@ const AddGuest = () => {
         <Button variant="outline" onClick={handleToggleEditMode}>
           Cancelar
         </Button>
-        <Button>Adicionar</Button>
+        <Button type="submit">Adicionar</Button>
       </div>
-    </div>
+    </form>
   ) : (
     <div className="add-guest-wrapper" onClick={handleToggleEditMode}>
       <div className="add-guest-icon">

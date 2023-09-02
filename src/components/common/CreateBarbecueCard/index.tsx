@@ -25,7 +25,7 @@ const CreateBarbecueCard = () => {
       </div>
       <p className="text">Adicionar Churras</p>
       <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
-        <CreateBarbecueForm />
+        <CreateBarbecueForm closeModal={handleCloseModal} />
       </Modal>
     </div>
   );

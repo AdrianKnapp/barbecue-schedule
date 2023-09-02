@@ -6,16 +6,16 @@ import BarbecuePrice from '../BarbecuePrice';
 type BarbecueCardProps = {
   id: string;
   date: string;
-  description: string;
+  name: string;
   guests: number;
   amountRaised: number;
 };
 
-const BarbecueCard = ({ id, date, description, guests, amountRaised }: BarbecueCardProps) => {
+const BarbecueCard = ({ id, date, name, guests, amountRaised }: BarbecueCardProps) => {
   return (
     <Link href={`/${id}`} className="barbecue-card">
       <BarbecueDate date={date} />
-      <p className="description">{description}</p>
+      <p className="name">{name}</p>
       <div className="infos">
         <BarbecueGuests quantity={guests} />
         <BarbecuePrice price={amountRaised} />
