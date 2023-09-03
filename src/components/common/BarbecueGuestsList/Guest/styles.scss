@@ -2,7 +2,7 @@
   @apply flex justify-between border-b border-primary-default p-2 overflow-hidden;
 
   &:hover {
-    .edit-icon-wrapper {
+    .delete-icon-wrapper {
       @apply mr-0;
     }
   }
@@ -23,7 +23,7 @@
     @apply flex gap-5 items-center;
   }
 
-  .edit-icon-wrapper {
+  .delete-icon-wrapper {
     @apply p-1.5 cursor-pointer rounded-full duration-default hover:bg-primary-darker hover:text-white -mr-12;
 
     svg {

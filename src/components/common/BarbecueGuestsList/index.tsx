@@ -36,8 +36,6 @@ const BarbecueGuestsList = ({ price, barbecueGuests, barbecueId, refreshBarbecue
   }, [debouncedGuests]);
 
   const handleUpdateGuests = (newGuest: GuestModel) => {
-    if (!guests) return;
-
     const newGuests = [...guests, newGuest];
 
     setGuests([...guests, newGuest]);
@@ -48,8 +46,6 @@ const BarbecueGuestsList = ({ price, barbecueGuests, barbecueId, refreshBarbecue
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
-
-    if (!guests) return;
 
     const guestIndex = guests.findIndex((guest) => guest.id === id);
 
@@ -69,10 +65,29 @@ const BarbecueGuestsList = ({ price, barbecueGuests, barbecueId, refreshBarbecue
     });
   };
 
+  const handleDeleteGuest = (guestId: GuestModel['id']) => {
+    const guestIndex = guests.findIndex((guest) => guest.id === guestId);
+
+    const newGuests = [...guests];
+
+    newGuests.splice(guestIndex, 1);
+
+    setGuests(newGuests);
+    refreshBarbecue({
+      guests: [...newGuests],
+      amountRaised: getAmountRaised(newGuests),
+    });
+  };
+
   return (
     <div className="barbecue-guests-list-container">
       {guests.map((guest) => (
-        <Guest key={guest.id} guest={guest} handleCheckboxChange={handleCheckboxChange} />
+        <Guest
+          key={guest.id}
+          guest={guest}
+          handleCheckboxChange={handleCheckboxChange}
+          handleDeleteGuest={handleDeleteGuest}
+        />
       ))}
       <AddGuest barbecueId={barbecueId} price={price} guests={guests} setGuests={handleUpdateGuests} />
     </div>

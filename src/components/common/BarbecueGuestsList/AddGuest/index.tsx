@@ -51,7 +51,7 @@ const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
     try {
       setIsLoading(true);
       const newGuest: GuestModel = {
-        id: Math.random().toString(36),
+        id: `${guests.length + 1}`,
         name: fields.name,
         contribution: selected.value,
         paid: false,
