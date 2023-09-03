@@ -23,6 +23,9 @@ const config: Config = {
       transitionDuration: {
         default: '200ms',
       },
+      animation: {
+        'fast-pulse': 'fast-pulse 1s cubic-bezier(0.2, 0, 0.8, 1) infinite',
+      },
     },
   },
   plugins: [],

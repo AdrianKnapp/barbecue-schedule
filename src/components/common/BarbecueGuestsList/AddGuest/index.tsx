@@ -4,7 +4,6 @@ import { type BarbecueModel } from '@/types/barbecue';
 import { type GuestModel } from '@/types/guest';
 import priceFormatter from '@/utils/price-formatter';
 import { Listbox, Transition } from '@headlessui/react';
-import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
@@ -16,11 +15,12 @@ type AddGuestProps = {
   price: BarbecueModel['price'];
   barbecueId: string;
   guests: GuestModel[];
+  setGuests: (newGuest: GuestModel) => void;
 };
 
-const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
+const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
   const [isInEditMode, setIsInEditMode] = useState(false);
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -28,16 +28,16 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const { drinkIncluded, drinkNotIncluded } = price;
+
   const priceOptions = [
     {
-      id: 1,
       value: price.drinkNotIncluded,
-      name: `Preço sem bebida incluída (${priceFormatter.format(price.drinkNotIncluded)})`,
+      name: `${priceFormatter.format(drinkNotIncluded)} (sem bebidas inclusas)`,
     },
     {
-      id: 2,
       value: price.drinkIncluded,
-      name: `Preço com bebida incluída (${priceFormatter.format(price.drinkIncluded)})`,
+      name: `${priceFormatter.format(drinkIncluded)} (com bebidas inclusas)`,
     },
   ];
 
@@ -49,8 +49,9 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
 
   const onSubmit: SubmitHandler<Inputs> = async (fields) => {
     try {
+      setIsLoading(true);
       const newGuest: GuestModel = {
-        id: Math.random().toString(36).substr(2, 9),
+        id: `${guests.length + 1}`,
         name: fields.name,
         contribution: selected.value,
         paid: false,
@@ -65,11 +66,13 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
         body: JSON.stringify(data),
       });
 
-      router.refresh();
+      setGuests(newGuest);
     } catch (err) {
       console.error(err);
+    } finally {
+      handleToggleEditMode();
+      setIsLoading(false);
     }
-    handleToggleEditMode();
   };
 
   return isInEditMode ? (
@@ -108,10 +111,10 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute mt-2 max-h-60 w-full overflow-auto bg-white border border-dark-default shadow-xl">
-                {priceOptions.map((option, personIdx) => (
+              <Listbox.Options className="absolute mt-2 max-h-60 w-full overflow-auto bg-white border border-dark-default shadow-xl outline-none">
+                {priceOptions.map((option) => (
                   <Listbox.Option
-                    key={personIdx}
+                    key={option.value}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 px-5 duration-default ${
                         active ? 'bg-gray-100' : 'text-gray-900'
@@ -134,14 +137,23 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
         </Listbox>
       </div>
       <div className="editor-button-group">
-        <Button variant="outline" onClick={handleToggleEditMode}>
+        <Button type="button" variant="outline" onClick={handleToggleEditMode}>
           Cancelar
         </Button>
-        <Button type="submit">Adicionar</Button>
+        <Button type="submit" loading={isLoading}>
+          Adicionar
+        </Button>
       </div>
     </form>
   ) : (
-    <div className="add-guest-wrapper" onClick={handleToggleEditMode}>
+    <div
+      className="add-guest-wrapper"
+      onClick={handleToggleEditMode}
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') handleToggleEditMode();
+      }}
+    >
       <div className="add-guest-icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"

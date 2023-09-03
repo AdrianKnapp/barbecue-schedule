@@ -1,6 +1,6 @@
 @import '../app/styles.scss';
 @import '../app/(user)/styles.scss';
-@import '../app/(home)/[barbecueId]/styles.scss';
+@import '../app/(barbecues)/[id]/styles.scss';
 
 @import '../components/common/Logo/styles.scss';
 @import '../components/common/HeaderImage/styles.scss';
@@ -16,3 +16,4 @@
 @import '../components/ui/Inputs/Checkbox/styles.scss';
 @import '../components/ui/Button/styles.scss';
 @import '../components/ui/Modal/styles.scss';
+@import '../components/ui/Spin/styles.scss';
