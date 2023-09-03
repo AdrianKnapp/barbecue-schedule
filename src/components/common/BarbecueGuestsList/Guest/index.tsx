@@ -1,5 +1,8 @@
+'use client';
+
 import Checkbox from '@/components/ui/Inputs/Checkbox';
 import { type GuestModel } from '@/types/guest';
+import debounce from '@/utils/debounce';
 import priceFormatter from '@/utils/price-formatter';
 import { useRouter } from 'next/navigation';
 import { type ChangeEvent } from 'react';
@@ -28,6 +31,7 @@ const updateGuest = async (guests: GuestModel[], barbecueId: string) => {
 
 const Guest = ({ barbecueId, guests, guest }: GuestProps) => {
   const router = useRouter();
+  // const pathname = router.;
 
   const { id, name, contribution, paid } = guest;
 
@@ -45,15 +49,21 @@ const Guest = ({ barbecueId, guests, guest }: GuestProps) => {
 
     newGuests[guestIndex] = guestUpdated;
 
-    await updateGuest(newGuests, barbecueId);
-
-    router.refresh();
+    try {
+      await updateGuest(newGuests, barbecueId);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      router.refresh();
+    }
   };
+
+  const debouncedOnChange = debounce<ChangeEvent<HTMLInputElement>>(handleCheckboxChange, 1000);
 
   return (
     <div className="guest-item">
       <div className="checkbox-container">
-        <Checkbox id={id} onChange={handleCheckboxChange} defaultChecked={paid} />
+        <Checkbox id={id} onChange={debouncedOnChange} defaultChecked={paid} />
         <label htmlFor={id} className="guest-name">
           {name}
         </label>
