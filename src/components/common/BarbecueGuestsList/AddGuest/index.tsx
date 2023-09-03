@@ -146,7 +146,14 @@ const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
       </div>
     </form>
   ) : (
-    <div className="add-guest-wrapper" onClick={handleToggleEditMode}>
+    <div
+      className="add-guest-wrapper"
+      onClick={handleToggleEditMode}
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') handleToggleEditMode();
+      }}
+    >
       <div className="add-guest-icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
