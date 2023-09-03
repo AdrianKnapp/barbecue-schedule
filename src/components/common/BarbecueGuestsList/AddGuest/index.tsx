@@ -4,7 +4,6 @@ import { type BarbecueModel } from '@/types/barbecue';
 import { type GuestModel } from '@/types/guest';
 import priceFormatter from '@/utils/price-formatter';
 import { Listbox, Transition } from '@headlessui/react';
-import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
@@ -16,11 +15,12 @@ type AddGuestProps = {
   price: BarbecueModel['price'];
   barbecueId: string;
   guests: GuestModel[];
+  setGuests: (newGuest: GuestModel) => void;
 };
 
-const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
+const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
   const [isInEditMode, setIsInEditMode] = useState(false);
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -49,8 +49,9 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
 
   const onSubmit: SubmitHandler<Inputs> = async (fields) => {
     try {
+      setIsLoading(true);
       const newGuest: GuestModel = {
-        id: Math.random().toString(36).substr(2, 9),
+        id: Math.random().toString(36),
         name: fields.name,
         contribution: selected.value,
         paid: false,
@@ -65,11 +66,13 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
         body: JSON.stringify(data),
       });
 
-      router.refresh();
+      setGuests(newGuest);
     } catch (err) {
       console.error(err);
+    } finally {
+      handleToggleEditMode();
+      setIsLoading(false);
     }
-    handleToggleEditMode();
   };
 
   return isInEditMode ? (
@@ -134,10 +137,12 @@ const AddGuest = ({ price, barbecueId, guests }: AddGuestProps) => {
         </Listbox>
       </div>
       <div className="editor-button-group">
-        <Button variant="outline" onClick={handleToggleEditMode}>
+        <Button type="button" variant="outline" onClick={handleToggleEditMode}>
           Cancelar
         </Button>
-        <Button type="submit">Adicionar</Button>
+        <Button type="submit" loading={isLoading}>
+          Adicionar
+        </Button>
       </div>
     </form>
   ) : (

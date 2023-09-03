@@ -1,5 +1,5 @@
 .button {
-  @apply p-4 w-full bg-dark-default text-white rounded-[18px] font-bold duration-default;
+  @apply p-4 w-full bg-dark-default text-white rounded-[18px] font-bold duration-default flex gap-4 justify-center items-center;
 
   &.primary {
     @apply hover:bg-dark-light;
@@ -7,5 +7,9 @@
 
   &.outline {
     @apply bg-transparent outline-2 outline-dark-default text-black hover:bg-dark-default hover:text-white -outline-offset-2 focus:bg-dark-default focus:text-white focus:ring-0 focus:outline-none;
+  }
+
+  &.loading {
+    @apply bg-dark-light cursor-not-allowed;
   }
 }

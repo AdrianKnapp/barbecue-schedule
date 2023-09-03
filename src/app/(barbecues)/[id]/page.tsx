@@ -1,8 +1,12 @@
+'use client';
+
 import BarbecueDate from '@/components/common/BarbecueDate';
 import BarbecueGuests from '@/components/common/BarbecueGuests';
 import BarbecueGuestsList from '@/components/common/BarbecueGuestsList';
 import BarbecuePrice from '@/components/common/BarbecuePrice';
+import Spin from '@/components/ui/Spin';
 import { type BarbecueModel } from '@/types/barbecue';
+import { useEffect, useState } from 'react';
 
 type PageProps = {
   params: {
@@ -14,17 +18,11 @@ type BarbecueResponse = {
   barbecue?: BarbecueModel;
 };
 
-export const generateMetadata = () => {
-  return {
-    title: 'Barbecue',
-    description: 'Barbecue description',
-    image: 'https://barbecue.com/image.png',
-  };
-};
-
 const getBarbecueById = async (id: string): Promise<BarbecueResponse> => {
   try {
-    const response = await fetch(`http://localhost:3000/api/barbecues/${id}`);
+    const response = await fetch(`http://localhost:3000/api/barbecues/${id}`, {
+      cache: 'no-cache',
+    });
     const data = await response.json();
     return data;
   } catch (error) {
@@ -33,15 +31,32 @@ const getBarbecueById = async (id: string): Promise<BarbecueResponse> => {
   }
 };
 
-const Page = async ({ params }: PageProps) => {
-  const { barbecue } = await getBarbecueById(params.id);
+const Page = ({ params }: PageProps) => {
+  const { id } = params;
 
-  if (!barbecue) {
+  const [barbecue, setBarbecue] = useState<BarbecueModel | undefined>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    void (async () => {
+      setIsLoading(true);
+      const { barbecue } = await getBarbecueById(id);
+      setBarbecue(barbecue);
+      setIsLoading(false);
+    })();
+  }, []);
+
+  if (isLoading) {
     return (
-      <div>
-        <p>Barbecue not found.</p>
+      <div className="barbecue-content loading">
+        <Spin />
       </div>
     );
+  }
+
+  if (!barbecue) {
+    window.location.href = '/404';
+    return;
   }
 
   return (
@@ -57,7 +72,7 @@ const Page = async ({ params }: PageProps) => {
         </div>
       </div>
 
-      <BarbecueGuestsList guests={barbecue.guests} price={barbecue.price} barbecueId={barbecue._id} />
+      <BarbecueGuestsList price={barbecue.price} barbecue={barbecue} setBarbecue={setBarbecue} />
     </div>
   );
 };
