@@ -4,28 +4,24 @@ import Guest from './Guest';
 import AddGuest from './AddGuest';
 import { type GuestModel } from '@/types/guest';
 import { type BarbecueModel } from '@/types/barbecue';
-import { type ChangeEvent, useEffect, type SetStateAction, type Dispatch } from 'react';
+import { type ChangeEvent, useEffect, useState } from 'react';
 import useDebounce from '@/utils/use-debounce';
 import getAmountRaised from '@/utils/get-amount-raised';
 
 type BarbecueGuestsListProps = {
   price: BarbecueModel['price'];
-  barbecue: BarbecueModel;
-  setBarbecue: Dispatch<SetStateAction<BarbecueModel | undefined>>;
+  barbecueId: BarbecueModel['_id'];
+  barbecueGuests: BarbecueModel['guests'];
+  refreshBarbecue: (newBarbecue: Partial<BarbecueModel>) => void;
 };
 
-type UpdateBarbecueProps = {
-  id: string;
-  barbecue: BarbecueModel;
-};
-
-const updateBarbecue = async ({ id, barbecue }: UpdateBarbecueProps) => {
+const updateBarbecue = async ({ id, guests }: { id: string; guests: GuestModel[] }) => {
   try {
     await fetch(`/api/barbecues/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({
-        ...barbecue,
-        amountRaised: getAmountRaised(barbecue.guests),
+        guests,
+        amountRaised: getAmountRaised(guests),
       }),
     });
   } catch (err) {
@@ -33,17 +29,20 @@ const updateBarbecue = async ({ id, barbecue }: UpdateBarbecueProps) => {
   }
 };
 
-const BarbecueGuestsList = ({ price, barbecue, setBarbecue }: BarbecueGuestsListProps) => {
-  const { _id: barbecueId, guests } = barbecue;
+const BarbecueGuestsList = ({ price, barbecueGuests, barbecueId, refreshBarbecue }: BarbecueGuestsListProps) => {
+  const [guests, setGuests] = useState<GuestModel[]>(barbecueGuests);
 
-  const debouncedGuests = useDebounce(guests, 500);
+  const debouncedGuests = useDebounce(guests, 1000);
 
   useEffect(() => {
     if (!guests) return;
 
     void (async () => {
       try {
-        await updateBarbecue({ id: barbecueId, barbecue });
+        await updateBarbecue({
+          id: barbecueId,
+          guests,
+        });
       } catch (err) {
         console.error(err);
       }
@@ -53,20 +52,18 @@ const BarbecueGuestsList = ({ price, barbecue, setBarbecue }: BarbecueGuestsList
   const handleUpdateGuests = (newGuest: GuestModel) => {
     if (!guests) return;
 
-    setBarbecue((prev) => {
-      if (!prev) return prev;
+    const newGuests = [...guests, newGuest];
 
-      return {
-        ...prev,
-        guests: [...prev.guests, newGuest],
-      };
+    setGuests([...guests, newGuest]);
+    refreshBarbecue({
+      guests: newGuests,
     });
   };
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
 
-    if (!barbecue || !guests) return;
+    if (!guests) return;
 
     const guestIndex = guests.findIndex((guest) => guest.id === id);
 
@@ -79,14 +76,10 @@ const BarbecueGuestsList = ({ price, barbecue, setBarbecue }: BarbecueGuestsList
       paid: checked,
     };
 
-    setBarbecue((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        guests: [...newGuests],
-        amountRaised: getAmountRaised(newGuests),
-      };
+    setGuests(newGuests);
+    refreshBarbecue({
+      guests: [...newGuests],
+      amountRaised: getAmountRaised(newGuests),
     });
   };
 

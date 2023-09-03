@@ -28,16 +28,16 @@ const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const { drinkIncluded, drinkNotIncluded } = price;
+
   const priceOptions = [
     {
-      id: 1,
       value: price.drinkNotIncluded,
-      name: `Preço sem bebida incluída (${priceFormatter.format(price.drinkNotIncluded)})`,
+      name: `${priceFormatter.format(drinkNotIncluded)} (sem bebidas inclusas)`,
     },
     {
-      id: 2,
       value: price.drinkIncluded,
-      name: `Preço com bebida incluída (${priceFormatter.format(price.drinkIncluded)})`,
+      name: `${priceFormatter.format(drinkIncluded)} (com bebidas inclusas)`,
     },
   ];
 
@@ -111,10 +111,10 @@ const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute mt-2 max-h-60 w-full overflow-auto bg-white border border-dark-default shadow-xl">
-                {priceOptions.map((option, personIdx) => (
+              <Listbox.Options className="absolute mt-2 max-h-60 w-full overflow-auto bg-white border border-dark-default shadow-xl outline-none">
+                {priceOptions.map((option) => (
                   <Listbox.Option
-                    key={personIdx}
+                    key={option.value}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 px-5 duration-default ${
                         active ? 'bg-gray-100' : 'text-gray-900'

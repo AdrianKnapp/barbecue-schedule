@@ -6,7 +6,7 @@ import BarbecueGuestsList from '@/components/common/BarbecueGuestsList';
 import BarbecuePrice from '@/components/common/BarbecuePrice';
 import Spin from '@/components/ui/Spin';
 import { type BarbecueModel } from '@/types/barbecue';
-import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 type PageProps = {
   params: {
@@ -14,37 +14,37 @@ type PageProps = {
   };
 };
 
-type BarbecueResponse = {
-  barbecue?: BarbecueModel;
-};
-
-const getBarbecueById = async (id: string): Promise<BarbecueResponse> => {
-  try {
-    const response = await fetch(`http://localhost:3000/api/barbecues/${id}`, {
-      cache: 'no-cache',
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    return {};
-  }
+const fetcher = async (url: string) => {
+  return await fetch(url, {
+    cache: 'no-cache',
+  })
+    .then(async (response) => await response.json())
+    .then(
+      (data) =>
+        data as {
+          barbecue: BarbecueModel;
+        },
+    );
 };
 
 const Page = ({ params }: PageProps) => {
-  const { id } = params;
+  const { data, isLoading, mutate } = useSWR(`/api/barbecues/${params.id}`, fetcher);
 
-  const [barbecue, setBarbecue] = useState<BarbecueModel | undefined>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { barbecue } = data ?? {};
 
-  useEffect(() => {
-    void (async () => {
-      setIsLoading(true);
-      const { barbecue } = await getBarbecueById(id);
-      setBarbecue(barbecue);
-      setIsLoading(false);
-    })();
-  }, []);
+  const refreshBarbecue = async (newBarbecue: Partial<BarbecueModel>) => {
+    await mutate(
+      {
+        barbecue: {
+          ...barbecue,
+          ...newBarbecue,
+        },
+      },
+      {
+        revalidate: false,
+      },
+    );
+  };
 
   if (isLoading) {
     return (
@@ -55,8 +55,7 @@ const Page = ({ params }: PageProps) => {
   }
 
   if (!barbecue) {
-    window.location.href = '/404';
-    return;
+    return <div>No date available</div>;
   }
 
   return (
@@ -72,7 +71,12 @@ const Page = ({ params }: PageProps) => {
         </div>
       </div>
 
-      <BarbecueGuestsList price={barbecue.price} barbecue={barbecue} setBarbecue={setBarbecue} />
+      <BarbecueGuestsList
+        price={barbecue.price}
+        barbecueGuests={barbecue.guests}
+        barbecueId={barbecue._id}
+        refreshBarbecue={refreshBarbecue}
+      />
     </div>
   );
 };
