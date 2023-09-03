@@ -6,7 +6,7 @@ import { type BarbecueModel } from '@/types/barbecue';
 
 type PageProps = {
   params: {
-    barbecueId: string;
+    id: string;
   };
 };
 
@@ -34,7 +34,7 @@ const getBarbecueById = async (id: string): Promise<BarbecueResponse> => {
 };
 
 const Page = async ({ params }: PageProps) => {
-  const { barbecue } = await getBarbecueById(params.barbecueId);
+  const { barbecue } = await getBarbecueById(params.id);
 
   if (!barbecue) {
     return (
