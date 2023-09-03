@@ -7,26 +7,13 @@ import { type BarbecueModel } from '@/types/barbecue';
 import { type ChangeEvent, useEffect, useState } from 'react';
 import useDebounce from '@/utils/use-debounce';
 import getAmountRaised from '@/utils/get-amount-raised';
+import updateBarbecue from '@/utils/api/update-barbecue';
 
 type BarbecueGuestsListProps = {
   price: BarbecueModel['price'];
   barbecueId: BarbecueModel['_id'];
   barbecueGuests: BarbecueModel['guests'];
   refreshBarbecue: (newBarbecue: Partial<BarbecueModel>) => void;
-};
-
-const updateBarbecue = async ({ id, guests }: { id: string; guests: GuestModel[] }) => {
-  try {
-    await fetch(`/api/barbecues/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        guests,
-        amountRaised: getAmountRaised(guests),
-      }),
-    });
-  } catch (err) {
-    console.error(err);
-  }
 };
 
 const BarbecueGuestsList = ({ price, barbecueGuests, barbecueId, refreshBarbecue }: BarbecueGuestsListProps) => {
@@ -38,14 +25,13 @@ const BarbecueGuestsList = ({ price, barbecueGuests, barbecueId, refreshBarbecue
     if (!guests) return;
 
     void (async () => {
-      try {
-        await updateBarbecue({
-          id: barbecueId,
-          guests,
-        });
-      } catch (err) {
-        console.error(err);
-      }
+      await updateBarbecue({
+        id: barbecueId,
+        barbecue: {
+          guests: debouncedGuests,
+          amountRaised: getAmountRaised(debouncedGuests),
+        },
+      });
     })();
   }, [debouncedGuests]);
 

@@ -3,6 +3,7 @@ import InputText from '@/components/ui/Inputs/InputText';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { type BarbecueModel } from '@/types/barbecue';
+import createBarbecue from '@/utils/api/create-barbecue';
 
 type Inputs = {
   name: string;
@@ -38,9 +39,8 @@ const CreateBarbecueForm = ({ closeModal }: CreateBarbecueFormProps) => {
         },
       };
 
-      await fetch('/api/barbecues', {
-        method: 'POST',
-        body: JSON.stringify(barbecue),
+      await createBarbecue({
+        barbecue,
       });
 
       closeModal();

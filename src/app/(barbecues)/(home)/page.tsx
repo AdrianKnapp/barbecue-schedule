@@ -1,6 +1,7 @@
 import BarbecueCard from '@/components/common/BarbecueCard';
 import CreateBarbecueCard from '@/components/common/CreateBarbecueCard';
 import { type BarbecueModel } from '@/types/barbecue';
+import getBarbecues from '@/utils/api/get-barbecues';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,17 +9,8 @@ type BarbecuesResponse = {
   barbecues: BarbecueModel[];
 };
 
-const getBarbecues = async (): Promise<BarbecuesResponse> => {
-  try {
-    const response = await fetch(`http://localhost:3000/api/barbecues`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    return {
-      barbecues: [],
-    };
-  }
+const fetchBarbecues = async (): Promise<BarbecuesResponse> => {
+  return await getBarbecues();
 };
 
 export const metadata = {
@@ -29,7 +21,7 @@ export const metadata = {
 };
 
 const Home = async () => {
-  const data = await getBarbecues();
+  const data = await fetchBarbecues();
 
   const { barbecues } = data;
 
