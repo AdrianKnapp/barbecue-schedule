@@ -4,8 +4,13 @@ import Modal from '@/components/ui/Modal';
 import Image from 'next/image';
 import { useState } from 'react';
 import CreateBarbecueForm from '../CreateBarbecueForm';
+import { type BarbecueModel } from '@/types/barbecue';
 
-const CreateBarbecueCard = () => {
+type CreateBarbecueCardProps = {
+  handleMutate: (newBarbecues: Array<Partial<BarbecueModel>>) => void;
+};
+
+const CreateBarbecueCard = ({ handleMutate }: CreateBarbecueCardProps) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleCloseModal = () => {
@@ -25,7 +30,7 @@ const CreateBarbecueCard = () => {
       </div>
       <p className="text">Adicionar Churras</p>
       <Modal isOpen={modalIsOpen} closeModal={handleCloseModal}>
-        <CreateBarbecueForm closeModal={handleCloseModal} />
+        <CreateBarbecueForm closeModal={handleCloseModal} handleMutate={handleMutate} />
       </Modal>
     </div>
   );

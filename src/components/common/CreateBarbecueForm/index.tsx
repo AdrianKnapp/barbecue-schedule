@@ -1,7 +1,6 @@
 import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { type BarbecueModel } from '@/types/barbecue';
 import createBarbecue from '@/utils/api/create-barbecue';
 import { useEffect } from 'react';
@@ -16,11 +15,10 @@ type Inputs = {
 
 type CreateBarbecueFormProps = {
   closeModal: () => void;
+  handleMutate: (newBarbecues: Array<Partial<BarbecueModel>>) => void;
 };
 
-const CreateBarbecueForm = ({ closeModal }: CreateBarbecueFormProps) => {
-  const router = useRouter();
-
+const CreateBarbecueForm = ({ closeModal, handleMutate }: CreateBarbecueFormProps) => {
   const {
     register,
     handleSubmit,
@@ -50,7 +48,7 @@ const CreateBarbecueForm = ({ closeModal }: CreateBarbecueFormProps) => {
       });
 
       closeModal();
-      router.refresh();
+      handleMutate([barbecue]);
     } catch (err) {
       console.error(err);
     }

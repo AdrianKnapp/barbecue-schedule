@@ -9,13 +9,14 @@ const getBarbecues = async (): Promise<getBarbecuesReturn> => {
   let data;
 
   try {
-    const response = await fetch(`http://localhost:3000/${routes.barbecues}`);
+    const response = await fetch(`${routes.barbecues}`);
     data = await response.json();
   } catch (err) {
     console.warn('barbecues-api-error:', err);
     data = {};
   }
 
+  console.log('🚀 ~ file: get-barbecues.ts:10 ~ getBarbecues ~ data:', data);
   return data;
 };
 

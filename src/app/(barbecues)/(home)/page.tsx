@@ -1,26 +1,39 @@
+'use client';
+
 import BarbecueCard from '@/components/common/BarbecueCard';
 import CreateBarbecueCard from '@/components/common/CreateBarbecueCard';
+import { type BarbecueModel } from '@/types/barbecue';
 import getBarbecues from '@/utils/api/get-barbecues';
+import useSWR from 'swr';
 
-export const dynamic = 'force-dynamic';
-
-const fetchBarbecues = async () => {
+const fetcher = async () => {
   return await getBarbecues();
 };
 
-export const metadata = {
-  title: {
-    default: 'Agenda de Churras',
-    template: '%s | Agenda de Churras',
-  },
-};
+const Home = () => {
+  const { data, isLoading, mutate } = useSWR('request', fetcher);
 
-const Home = async () => {
-  const data = await fetchBarbecues();
+  const { barbecues = [] } = data ?? {};
 
-  const { barbecues = [] } = data;
+  const handleMutate = async (newBarbecues: Array<Partial<BarbecueModel>>) => {
+    await mutate(
+      {
+        barbecues: [...barbecues, ...newBarbecues],
+      },
+      {
+        revalidate: false,
+      },
+    );
+  };
 
-  return (
+  return isLoading ? (
+    <div className="home-skeleton">
+      <div className="card" />
+      <div className="card" />
+      <div className="card" />
+      <div className="card" />
+    </div>
+  ) : (
     <div className="home-page">
       {barbecues.map((barbecue) => (
         <BarbecueCard
@@ -32,7 +45,7 @@ const Home = async () => {
           amountRaised={barbecue.amountRaised}
         />
       ))}
-      <CreateBarbecueCard />
+      <CreateBarbecueCard handleMutate={handleMutate} />
     </div>
   );
 };

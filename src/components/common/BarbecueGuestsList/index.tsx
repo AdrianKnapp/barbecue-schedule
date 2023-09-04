@@ -19,7 +19,7 @@ type BarbecueGuestsListProps = {
 const BarbecueGuestsList = ({ price, barbecueGuests, barbecueId, refreshBarbecue }: BarbecueGuestsListProps) => {
   const [guests, setGuests] = useState<GuestModel[]>(barbecueGuests);
 
-  const debouncedGuests = useDebounce(guests, 1000);
+  const debouncedGuests = useDebounce(guests, 500);
 
   useEffect(() => {
     if (!guests) return;
