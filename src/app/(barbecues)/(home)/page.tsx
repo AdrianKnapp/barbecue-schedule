@@ -1,16 +1,16 @@
 import BarbecueCard from '@/components/common/BarbecueCard';
 import CreateBarbecueCard from '@/components/common/CreateBarbecueCard';
-import { type BarbecueModel } from '@/types/barbecue';
 import getBarbecues from '@/utils/api/get-barbecues';
 
 export const dynamic = 'force-dynamic';
 
-type BarbecuesResponse = {
-  barbecues: BarbecueModel[];
-};
+const fetchBarbecues = async () => {
+  const response = await getBarbecues();
 
-const fetchBarbecues = async (): Promise<BarbecuesResponse> => {
-  return await getBarbecues();
+  // delay
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  return response;
 };
 
 export const metadata = {
@@ -23,7 +23,7 @@ export const metadata = {
 const Home = async () => {
   const data = await fetchBarbecues();
 
-  const { barbecues } = data;
+  const { barbecues = [] } = data;
 
   return (
     <div className="home-page">

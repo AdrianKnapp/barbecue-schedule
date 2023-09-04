@@ -4,9 +4,13 @@
   .content-wrapper {
     @apply -mt-12;
 
-    .home-page {
+    .home-page, .home-skeleton {
       @apply grid grid-cols-2 gap-4 md:gap-6;
     }
+  }
+
+  .home-skeleton .card {
+    @apply animate-pulse bg-dark-lighter shadow-lg w-full min-h-[200px];
   }
 }
 

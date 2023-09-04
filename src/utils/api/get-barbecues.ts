@@ -1,6 +1,11 @@
+import { type BarbecueModel } from '@/types/barbecue';
 import routes from './routes';
 
-const getBarbecues = async () => {
+type getBarbecuesReturn = {
+  barbecues?: BarbecueModel[];
+};
+
+const getBarbecues = async (): Promise<getBarbecuesReturn> => {
   let data;
 
   try {
