@@ -10,11 +10,15 @@
 
     &-row {
       @apply flex justify-between;
+
+      &.name-price {
+        @apply items-start md:items-center;
+      }
     }
   }
 
   .barbecue-title {
-    @apply text-[28px] font-bold;
+    @apply font-size-large font-bold max-w-[65%] sm:max-w-[85%];
   }
 
   .barbecue-guests-list-container {

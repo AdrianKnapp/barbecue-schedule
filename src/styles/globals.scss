@@ -5,8 +5,18 @@
 @import './styles.scss';
 
 @layer components {
-  .font-size-default {
-    @apply text-[16px] md:text-[21px];
+  .font-size {
+    &-small {
+      @apply text-base;
+    }
+
+    &-default {
+      @apply text-[18px] md:text-[21px];
+    }
+
+    &-large {
+      @apply text-[24px] md:text-[28px];
+    }
   }
 }
 

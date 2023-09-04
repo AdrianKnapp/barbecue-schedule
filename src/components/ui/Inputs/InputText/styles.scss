@@ -2,7 +2,7 @@
   @apply flex flex-col w-full;
 
   .label {
-    @apply text-lg font-bold w-fit mb-4;
+    @apply font-size-small md:text-lg font-bold w-fit mb-1 md:mb-4;
   }
 
   .error-message {
@@ -10,7 +10,7 @@
   }
 
   .input {
-    @apply duration-default w-full py-3.5 px-5 rounded-none placeholder:italic placeholder:text-dark-default placeholder:text-base focus:outline-none focus:ring-1 focus:ring-dark-default focus:ring-offset-1 focus:ring-offset-dark-default;
+    @apply duration-default w-full py-3.5 px-5 rounded-none placeholder:italic placeholder:text-dark-default font-size-small placeholder:font-size-small md:placeholder:font-size-small focus:outline-none focus:ring-1 focus:ring-dark-default focus:ring-offset-1 focus:ring-offset-dark-default;
   }
 
   .input[type="date"] {

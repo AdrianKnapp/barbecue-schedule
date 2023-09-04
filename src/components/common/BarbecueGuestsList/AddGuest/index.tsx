@@ -45,9 +45,17 @@ const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
 
   const [selected, setSelected] = useState(priceOptions[0]);
 
-  const handleToggleEditMode = () => {
-    setIsInEditMode((prev) => !prev);
+  const handleEnableEditMode = () => {
+    setIsInEditMode(true);
     setFocus('name');
+  };
+
+  const handleDisableEditMode = () => {
+    setIsInEditMode(false);
+
+    if (document.activeElement && document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (fields) => {
@@ -74,7 +82,7 @@ const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
     } catch (err) {
       console.error(err);
     } finally {
-      handleToggleEditMode();
+      handleDisableEditMode();
       setIsLoading(false);
     }
   };
@@ -89,13 +97,14 @@ const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
           {...register('name', {
             required: true,
           })}
+          tabIndex={!isInEditMode ? -1 : 0}
           error={errors.name}
         />
         <div className="select-contribution">
           <p className="select-contribution-title">Contribuição</p>
-          <Listbox value={selected} onChange={setSelected}>
+          <Listbox value={selected} onChange={setSelected} disabled={!isInEditMode}>
             <div className="relative mt-1">
-              <Listbox.Button className="py-3.5 px-5 border border-dark-default w-full text-left focus:ring-2 ring-dark-default outline-none aria-expanded:ring-2">
+              <Listbox.Button className="py-3.5 px-5 font-size-small pr-10 border border-dark-default w-full text-left focus:ring-2 ring-dark-default outline-none aria-expanded:ring-2">
                 <span className="block truncate">{selected.name}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-5">
                   <svg
@@ -142,20 +151,20 @@ const AddGuest = ({ price, barbecueId, guests, setGuests }: AddGuestProps) => {
           </Listbox>
         </div>
         <div className="editor-button-group">
-          <Button type="button" variant="outline" onClick={handleToggleEditMode}>
+          <Button type="button" variant="outline" onClick={handleDisableEditMode} disabled={!isInEditMode}>
             Cancelar
           </Button>
-          <Button type="submit" loading={isLoading}>
+          <Button type="submit" loading={isLoading} disabled={!isInEditMode}>
             Adicionar
           </Button>
         </div>
       </form>
       <div
         className={`add-guest-wrapper ${isInEditMode ? '' : 'active'}`}
-        onClick={handleToggleEditMode}
+        onClick={handleEnableEditMode}
         tabIndex={0}
         onKeyDown={(event) => {
-          if (event.key === 'Enter') handleToggleEditMode();
+          if (event.key === 'Enter') handleEnableEditMode();
         }}
       >
         <div className="add-guest-icon">

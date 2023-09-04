@@ -24,7 +24,7 @@
   }
 
   .delete-icon-wrapper {
-    @apply p-1.5 cursor-pointer rounded-full duration-default hover:bg-primary-darker hover:text-white lg:-mr-12;
+    @apply p-1.5 cursor-pointer rounded-full duration-default hover:bg-primary-darker hover:text-white lg:-mr-12 focus:-mr-0 outline-none focus:bg-primary-darker focus:text-white;
 
     svg {
       @apply w-5 h-5;

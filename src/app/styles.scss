@@ -1,11 +1,11 @@
 .content-container {
-  @apply flex flex-col bg-dark-lightest h-full px-4 md:px-6;
+  @apply flex flex-col bg-dark-lightest h-full px-6;
 
   .content-wrapper {
     @apply -mt-12;
 
     .home-page, .home-skeleton {
-      @apply grid grid-cols-2 gap-4 md:gap-6;
+      @apply grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6;
     }
   }
 
@@ -16,7 +16,7 @@
 
 .home-layout {
   &-container {
-    @apply relative flex flex-col w-full lg:max-w-[636px] mx-auto bg-primary-default shadow-lg lg:mt-10 lg:mb-10 overflow-hidden;
+    @apply relative flex flex-col w-full sm:max-w-[636px] mx-auto bg-primary-default shadow-lg sm:mt-10 sm:mb-10 overflow-hidden;
   }
 
   &-content {

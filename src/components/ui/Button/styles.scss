@@ -1,5 +1,5 @@
 .button {
-  @apply p-4 w-full bg-dark-default text-white rounded-[18px] font-bold duration-default flex gap-4 justify-center items-center;
+  @apply p-4 w-full bg-dark-default text-white rounded-[18px] font-bold font-size-small duration-default flex gap-4 justify-center items-center;
 
   &.primary {
     @apply hover:bg-dark-light;

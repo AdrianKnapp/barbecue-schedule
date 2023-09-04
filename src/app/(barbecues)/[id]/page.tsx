@@ -57,7 +57,7 @@ const Page = ({ params }: PageProps) => {
           <BarbecueDate date={barbecue.date} />
           <BarbecueGuests quantity={barbecue?.guests?.length ?? 0} />
         </div>
-        <div className="details-row">
+        <div className="details-row name-price">
           <p className="barbecue-title">{barbecue.name}</p>
           <BarbecuePrice price={barbecue.amountRaised} />
         </div>

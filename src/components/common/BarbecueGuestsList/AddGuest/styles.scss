@@ -30,7 +30,7 @@
   @apply px-2 flex flex-col gap-5 max-h-0 overflow-hidden;
 
   &.active {
-    @apply flex max-h-max py-4;
+    @apply flex max-h-max py-4 overflow-visible;
   }
 
   .input-wrapper {
