@@ -12,6 +12,9 @@
     "prepare": "husky install",
     "commit": "git-cz"
   },
+  "engines": {
+    "node": "18.16.0"
+  },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@types/node": "20.5.7",
