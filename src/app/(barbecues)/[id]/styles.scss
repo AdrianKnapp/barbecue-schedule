@@ -9,11 +9,7 @@
     @apply flex flex-col gap-2;
 
     &-row {
-      @apply flex justify-between;
-
-      &.name-price {
-        @apply items-start md:items-center;
-      }
+      @apply flex justify-between items-center;
     }
   }
 
