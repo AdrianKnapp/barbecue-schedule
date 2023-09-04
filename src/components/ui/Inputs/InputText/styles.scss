@@ -12,4 +12,8 @@
   .input {
     @apply duration-default w-full py-3.5 px-5 rounded-none placeholder:italic placeholder:text-dark-default placeholder:text-base focus:outline-none focus:ring-1 focus:ring-dark-default focus:ring-offset-1 focus:ring-offset-dark-default;
   }
+
+  .input[type="date"] {
+    @apply appearance-none bg-white;
+  }
 }

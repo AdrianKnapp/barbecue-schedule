@@ -4,6 +4,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { type BarbecueModel } from '@/types/barbecue';
 import createBarbecue from '@/utils/api/create-barbecue';
+import { useEffect } from 'react';
 
 type Inputs = {
   name: string;
@@ -23,8 +24,13 @@ const CreateBarbecueForm = ({ closeModal }: CreateBarbecueFormProps) => {
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm<Inputs>();
+
+  useEffect(() => {
+    setFocus('name');
+  }, [setFocus]);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -66,6 +72,7 @@ const CreateBarbecueForm = ({ closeModal }: CreateBarbecueFormProps) => {
         id="date"
         label="Quando vai ser?"
         type="date"
+        defaultValue={new Date().toISOString().slice(0, 10)}
         {...register('date', {
           required: true,
         })}

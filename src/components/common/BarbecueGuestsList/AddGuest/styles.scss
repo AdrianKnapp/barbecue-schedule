@@ -1,5 +1,9 @@
 .add-guest-wrapper {
-  @apply flex gap-5 cursor-pointer items-center px-2 py-3 duration-default focus:ring-2 focus:ring-primary-darker outline-none;
+  @apply hidden gap-5 cursor-pointer items-center px-2 py-3 duration-default focus:ring-2 focus:ring-primary-darker outline-none;
+
+  &.active {
+    @apply flex;
+  }
 
   &:hover, &:focus {
     @apply text-primary-darker;
@@ -23,10 +27,18 @@
 }
 
 .editor-container {
-  @apply p-2 py-3 flex flex-col gap-5;
+  @apply px-2 flex flex-col gap-5 max-h-0 overflow-hidden;
+
+  &.active {
+    @apply flex max-h-max py-4;
+  }
 
   .input-wrapper {
     @apply gap-1;
+
+    .label {
+      @apply mb-0;
+    }
   }
 
   .editor-button-group {
