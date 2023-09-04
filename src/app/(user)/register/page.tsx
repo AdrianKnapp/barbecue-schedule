@@ -2,6 +2,7 @@
 
 import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
+import { type UserRequestData } from '@/types/user';
 import Link from 'next/link';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
@@ -11,6 +12,19 @@ type Inputs = {
   passwordConfirmation: string;
 };
 
+const registerUser = async ({ email, password }: UserRequestData) => {
+  const response = await fetch('/api/users/register', {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  });
+
+  const data = await response.json();
+  return data;
+};
+
 const Register = () => {
   const {
     register,
@@ -18,8 +32,11 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
+    await registerUser({
+      email,
+      password,
+    });
   };
 
   return (

@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const barbecue = (await request.json()) as BarbecueModel;
+  const barbecue: BarbecueModel = await request.json();
 
   await connectMongoDB();
 
