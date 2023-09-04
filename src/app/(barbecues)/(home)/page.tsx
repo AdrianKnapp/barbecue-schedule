@@ -5,12 +5,7 @@ import getBarbecues from '@/utils/api/get-barbecues';
 export const dynamic = 'force-dynamic';
 
 const fetchBarbecues = async () => {
-  const response = await getBarbecues();
-
-  // delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  return response;
+  return await getBarbecues();
 };
 
 export const metadata = {
