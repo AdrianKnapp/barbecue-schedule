@@ -32,11 +32,12 @@ const CreateBarbecueForm = ({ closeModal, handleMutate }: CreateBarbecueFormProp
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const barbecue: Omit<BarbecueModel, '_id' | 'amountRaised' | 'userId'> = {
+      const barbecue: Omit<BarbecueModel, '_id' | 'userId'> = {
         name: data.name,
         date: data.date,
         description: data.description,
         guests: [],
+        amountRaised: 0,
         price: {
           drinkIncluded: Number(data.priceDrinkIncluded),
           drinkNotIncluded: Number(data.priceDrinkNotIncluded),
