@@ -1,5 +1,5 @@
 .user-layout {
-  @apply bg-gradient-to-t from-primary-default from-80%;
+  @apply bg-gradient-to-t mt-12 sm:mt-24 from-primary-default from-90% md:from-80%;
 
   .forms-container {
     @apply flex flex-col max-w-[282px] mx-auto;

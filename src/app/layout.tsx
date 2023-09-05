@@ -15,9 +15,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={raleway.className}>
-        <div className="home-layout-container">
+        <div className="layout-container">
           <HeaderImage />
-          <div className="home-layout-content">
+          <div className="layout-content">
             <Link href="/" className="no-underline focus:no-underline">
               <h1 className="page-title">Agenda de Churras</h1>
             </Link>
