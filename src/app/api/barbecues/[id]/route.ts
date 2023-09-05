@@ -1,5 +1,7 @@
 import connectMongoDB from '@/libs/mongodb';
 import Barbecue from '@/models/barbecue';
+import unauthorizedResponse from '@/utils/errors/unauthorized-response';
+import getUserIdFromHeaders from '@/utils/get-user-id-from-headers';
 import { NextResponse } from 'next/server';
 
 export async function GET(
@@ -14,28 +16,37 @@ export async function GET(
 ) {
   const { id } = params;
 
-  const headers = new Headers(request.headers);
-  const userId = headers.get('user-id');
+  const userId = getUserIdFromHeaders(request);
+  if (!userId) return unauthorizedResponse();
 
   await connectMongoDB();
 
-  const response = await Barbecue.findOne({
-    _id: id,
-    userId,
-  });
+  try {
+    const barbecue = await Barbecue.findOne({
+      _id: id,
+      userId,
+    });
 
-  const barbecue = response.toObject();
-
-  return NextResponse.json(
-    {
-      barbecue: {
-        ...barbecue,
+    return NextResponse.json(
+      {
+        barbecue,
       },
-    },
-    {
-      status: 200,
-    },
-  );
+      {
+        status: 200,
+      },
+    );
+  } catch (err) {
+    console.error(err);
+
+    return NextResponse.json(
+      {
+        message: 'Barbecue not found.',
+      },
+      {
+        status: 404,
+      },
+    );
+  }
 }
 
 export async function PATCH(
@@ -52,19 +63,8 @@ export async function PATCH(
 
   const data = await request.json();
 
-  const headers = new Headers(request.headers);
-  const userId = headers.get('user-id');
-
-  if (!userId) {
-    return NextResponse.json(
-      {
-        message: 'Unauthorized.',
-      },
-      {
-        status: 403,
-      },
-    );
-  }
+  const userId = getUserIdFromHeaders(request);
+  if (!userId) return unauthorizedResponse();
 
   await connectMongoDB();
 

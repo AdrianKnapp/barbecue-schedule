@@ -1,13 +1,15 @@
 import connectMongoDB from '@/libs/mongodb';
 import Barbecue from '@/models/barbecue';
 import { type BarbecueModel } from '@/types/barbecue';
+import unauthorizedResponse from '@/utils/errors/unauthorized-response';
+import getUserIdFromHeaders from '@/utils/get-user-id-from-headers';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   await connectMongoDB();
 
-  const headers = new Headers(request.headers);
-  const userId = headers.get('user-id');
+  const userId = getUserIdFromHeaders(request);
+  if (!userId) return unauthorizedResponse();
 
   const barbecues = await Barbecue.find({ userId });
 
@@ -22,8 +24,8 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const barbecue: BarbecueModel = await request.json();
 
-  const headers = new Headers(request.headers);
-  const userId = headers.get('user-id');
+  const userId = getUserIdFromHeaders(request);
+  if (!userId) return unauthorizedResponse();
 
   await connectMongoDB();
 

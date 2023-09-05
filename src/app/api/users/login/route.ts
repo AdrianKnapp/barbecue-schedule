@@ -34,9 +34,17 @@ export async function POST(request: Request) {
     return invalidCredentialsResponse;
   }
 
-  const token = await signJWT({ sub: user._id }, { exp: '1h' });
+  const token = await signJWT({ sub: user._id }, { exp: '24h' });
 
-  cookies().set('bbc-token', token);
+  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+
+  cookies().set('bbc-token', token, {
+    path: '/',
+    secure: true,
+    expires,
+    sameSite: true,
+    httpOnly: true,
+  });
 
   return NextResponse.json(
     { user: user.email },

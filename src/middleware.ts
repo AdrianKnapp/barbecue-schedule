@@ -3,7 +3,13 @@ import type { NextRequest } from 'next/server';
 import { verifyJWT } from './libs/jwt';
 
 export async function middleware(request: NextRequest) {
-  const token = request.cookies.get('bbc-token');
+  let token: string | undefined;
+
+  if (request.cookies.has('bbc-token')) {
+    token = request.cookies.get('bbc-token')?.value;
+  } else if (request.headers.get('Authorization')?.startsWith('Bearer ')) {
+    token = request.headers.get('Authorization')?.substring(7);
+  }
 
   const { pathname } = request.nextUrl;
 
@@ -20,7 +26,7 @@ export async function middleware(request: NextRequest) {
   try {
     const { sub } = await verifyJWT<{
       sub: string;
-    }>(token.value);
+    }>(token);
 
     if (isAuthPage) {
       return NextResponse.redirect(new URL('/', request.url));
@@ -36,7 +42,25 @@ export async function middleware(request: NextRequest) {
     });
   } catch (error) {
     console.error(error);
-    return NextResponse.next();
+
+    if (isAuthPage) {
+      return;
+    }
+
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set('user-id', 'undefined');
+
+    if (!pathname.startsWith('/api')) {
+      return NextResponse.redirect(new URL('/login', request.url), {
+        headers: requestHeaders,
+      });
+    }
+
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
   }
 }
 
