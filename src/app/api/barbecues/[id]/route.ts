@@ -40,7 +40,7 @@ export async function GET(
 
     return NextResponse.json(
       {
-        message: 'Barbecue not found.',
+        error: 'Barbecue not found.',
       },
       {
         status: 404,

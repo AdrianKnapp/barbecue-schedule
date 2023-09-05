@@ -20,4 +20,8 @@
       @apply text-center text-base text-dark-light;
     }
   }
+
+  .form-error {
+    @apply text-red-600 text-base text-center;
+  }
 }

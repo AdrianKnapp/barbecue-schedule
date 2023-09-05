@@ -13,9 +13,14 @@ type Inputs = {
   password: string;
 };
 
-const loginUser = async ({ email, password }: UserRequestData) => {
+type LoginUserResponse = {
+  error?: string;
+  message?: string;
+};
+
+const loginUser = async ({ email, password }: UserRequestData): Promise<LoginUserResponse> => {
   try {
-    await fetch('/api/users/login', {
+    const response = await fetch('/api/users/login', {
       method: 'POST',
       body: JSON.stringify({
         email,
@@ -26,19 +31,18 @@ const loginUser = async ({ email, password }: UserRequestData) => {
       },
     });
 
-    return {
-      message: 'Login realizado com sucesso',
-    };
+    return await response.json();
   } catch (err) {
     console.warn(err);
 
     return {
-      message: 'Erro ao fazer login',
+      error: 'Erro ao fazer login',
     };
   }
 };
 
 const Login = () => {
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -51,13 +55,21 @@ const Login = () => {
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
     try {
       setIsLoading(true);
-      await loginUser({
+      const response = await loginUser({
         email,
         password,
       });
 
+      const { error } = response;
+
+      if (error) {
+        setError(error);
+        return;
+      }
+
       router.push('/');
     } catch (err) {
+      console.log('🚀 ~ file: page.tsx:63 ~ constonSubmit:SubmitHandler<Inputs>= ~ err:', err);
       console.warn(err);
     } finally {
       setIsLoading(false);
@@ -85,7 +97,7 @@ const Login = () => {
         type="password"
         error={errors.password}
       />
-
+      {error && <p className="form-error">{error}</p>}
       <div className="buttons-wrapper">
         <Button type="submit" loading={isLoading}>
           Entrar

@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     console.error(err);
 
     return NextResponse.json(
-      { message: 'Ocorreu um erro ao fazer login.' },
+      { error: 'Ocorreu um erro ao fazer login.' },
       {
         status: 400,
       },

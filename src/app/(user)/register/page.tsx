@@ -15,16 +15,23 @@ type Inputs = {
 };
 
 const registerUser = async ({ email, password }: UserRequestData) => {
-  const response = await fetch('/api/users/register', {
-    method: 'POST',
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-  });
+  try {
+    const response = await fetch('/api/users/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
 
-  const data = await response.json();
-  return data;
+    return await response.json();
+  } catch (err) {
+    console.warn(err);
+
+    return {
+      error: 'Erro ao fazer cadastro.',
+    };
+  }
 };
 
 const Register = () => {
@@ -34,16 +41,24 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
     try {
       setIsLoading(true);
-      await registerUser({
+      const response = await registerUser({
         email,
         password,
       });
+
+      const { error } = response;
+
+      if (error) {
+        setError(error);
+        return;
+      }
 
       router.push('/login');
     } catch (err) {
@@ -90,7 +105,7 @@ const Register = () => {
         error={errors.passwordConfirmation}
         errorMessage={errors.passwordConfirmation?.message}
       />
-
+      {error && <p className="form-error">{error}</p>}
       <div className="buttons-wrapper">
         <Button type="submit" loading={isLoading}>
           Registrar

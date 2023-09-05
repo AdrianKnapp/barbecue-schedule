@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 const invalidCredentialsResponse = () => {
   return NextResponse.json(
     {
-      message: 'Credenciais inválidas.',
+      error: 'Credenciais inválidas.',
     },
     {
       status: 400,
