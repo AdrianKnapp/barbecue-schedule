@@ -14,16 +14,28 @@ type Inputs = {
 };
 
 const loginUser = async ({ email, password }: UserRequestData) => {
-  const response = await fetch('/api/users/login', {
-    method: 'POST',
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-  });
+  try {
+    await fetch('/api/users/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-  const data = await response.json();
-  return data;
+    return {
+      message: 'Login realizado com sucesso',
+    };
+  } catch (err) {
+    console.warn(err);
+
+    return {
+      message: 'Erro ao fazer login',
+    };
+  }
 };
 
 const Login = () => {
@@ -55,7 +67,6 @@ const Login = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <InputText
-        defaultValue="email"
         id="email"
         label="Login"
         placeholder="e-mail"

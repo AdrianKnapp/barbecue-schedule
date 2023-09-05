@@ -16,7 +16,6 @@ const getBarbecues = async (): Promise<getBarbecuesReturn> => {
     data = {};
   }
 
-  console.log('🚀 ~ file: get-barbecues.ts:10 ~ getBarbecues ~ data:', data);
   return data;
 };
 
