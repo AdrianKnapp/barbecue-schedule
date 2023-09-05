@@ -14,10 +14,14 @@ export async function GET(
 ) {
   const { id } = params;
 
+  const headers = new Headers(request.headers);
+  const userId = headers.get('user-id');
+
   await connectMongoDB();
 
   const response = await Barbecue.findOne({
     _id: id,
+    userId,
   });
 
   const barbecue = response.toObject();
@@ -47,6 +51,20 @@ export async function PATCH(
   const { id } = params;
 
   const data = await request.json();
+
+  const headers = new Headers(request.headers);
+  const userId = headers.get('user-id');
+
+  if (!userId) {
+    return NextResponse.json(
+      {
+        message: 'Unauthorized.',
+      },
+      {
+        status: 403,
+      },
+    );
+  }
 
   await connectMongoDB();
 

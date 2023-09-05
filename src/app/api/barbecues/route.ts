@@ -6,7 +6,10 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   await connectMongoDB();
 
-  const barbecues = await Barbecue.find();
+  const headers = new Headers(request.headers);
+  const userId = headers.get('user-id');
+
+  const barbecues = await Barbecue.find({ userId });
 
   return NextResponse.json(
     { barbecues },
@@ -17,7 +20,10 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const barbecue = (await request.json()) as BarbecueModel;
+  const barbecue: BarbecueModel = await request.json();
+
+  const headers = new Headers(request.headers);
+  const userId = headers.get('user-id');
 
   await connectMongoDB();
 
@@ -28,8 +34,8 @@ export async function POST(request: Request) {
   const createdBarbecue: BarbecueModel = await Barbecue.create({
     ...barbecue,
     amountRaised: barbecue.guests.reduce((acc, guest) => acc + guest.contribution, 0),
-    userId: '123',
     date,
+    userId,
   });
 
   return NextResponse.json(
