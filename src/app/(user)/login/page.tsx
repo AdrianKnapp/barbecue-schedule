@@ -4,6 +4,8 @@ import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
 import { type UserRequestData } from '@/types/user';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
 type Inputs = {
@@ -21,20 +23,33 @@ const loginUser = async ({ email, password }: UserRequestData) => {
   });
 
   const data = await response.json();
-  console.log('🚀 ~ file: page.tsx:28 ~ registerUser ~ data:', data);
+  return data;
 };
 
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
-    await loginUser({
-      email,
-      password,
-    });
+    try {
+      setIsLoading(true);
+      await loginUser({
+        email,
+        password,
+      });
+
+      router.push('/');
+    } catch (err) {
+      console.warn(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -61,7 +76,9 @@ const Login = () => {
       />
 
       <div className="buttons-wrapper">
-        <Button type="submit">Entrar</Button>
+        <Button type="submit" loading={isLoading}>
+          Entrar
+        </Button>
         <p className="alternative-link">
           Não possui uma conta? <Link href="/register">Cadastre-se</Link>
         </p>
