@@ -61,14 +61,16 @@ const Login = () => {
       });
 
       const { error: responseError } = response;
-      console.log('🚀 ~ file: page.tsx:64 ~ constonSubmit:SubmitHandler<Inputs>= ~ response:', response);
+      console.log('🚀 ~ file: page.tsx:64 ~ onSubmit ~ response:', response);
 
       if (responseError) {
+        console.log('🚀 ~ file: page.tsx:67 ~ setting error:', responseError);
         setError(responseError);
         return;
       }
 
-      router.replace('/');
+      router.push('/');
+      console.log('🚀 ~ file: page.tsx:74 ~ onSubmit ~ router.push done');
     } catch (err) {
       console.error(err);
       console.warn(err);
