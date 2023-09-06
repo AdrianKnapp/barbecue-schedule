@@ -60,10 +60,10 @@ const Login = () => {
         password,
       });
 
-      const { error } = response;
+      const { error: responseError } = response;
 
-      if (error) {
-        setError(error);
+      if (responseError) {
+        setError(responseError);
         return;
       }
 

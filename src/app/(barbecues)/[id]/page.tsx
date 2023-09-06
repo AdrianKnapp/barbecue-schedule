@@ -7,6 +7,7 @@ import BarbecuePrice from '@/components/common/BarbecuePrice';
 import Spin from '@/components/ui/Spin';
 import { type BarbecueModel } from '@/types/barbecue';
 import getBarbecueById from '@/utils/api/get-barbecue-by-id';
+import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 
 type PageProps = {
@@ -16,13 +17,30 @@ type PageProps = {
 };
 
 const fetcher = async (id: string) => {
-  return await getBarbecueById(id);
+  try {
+    const response = await getBarbecueById({
+      id,
+    });
+
+    return response;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 };
 
 const Page = ({ params }: PageProps) => {
+  const { push } = useRouter();
+
   const { data, isLoading, mutate } = useSWR(params.id, fetcher);
 
-  const { barbecue } = data ?? {};
+  const { barbecue, error } = data ?? {};
+
+  if (error) {
+    if (error && error === 'Unauthorized.') {
+      push('/login');
+    }
+  }
 
   const refreshBarbecue = async (newBarbecue: Partial<BarbecueModel>) => {
     await mutate(
