@@ -1,7 +1,7 @@
 import { type Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Churras Trinca | Login',
+  title: 'Agenda de Churras | Login',
   description: 'Faça seu login e comece a marcar seus churras.',
 };
 

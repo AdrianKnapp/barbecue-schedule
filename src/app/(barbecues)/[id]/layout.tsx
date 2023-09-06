@@ -3,7 +3,7 @@ import { type Metadata } from 'next';
 import { cookies } from 'next/headers';
 
 const defaultMetadata = {
-  title: 'Churras Trinca',
+  title: 'Agenda de Churras',
   description: 'Página do seu churrasco.',
 };
 
@@ -42,7 +42,7 @@ export async function generateMetadata({
     }
 
     return {
-      title: `Churras Trinca | ${barbecue.name}`,
+      title: `Agenda de Churras | ${barbecue.name}`,
       description: `Gerencie seu churrasco agora.`,
     };
   } catch (err) {
