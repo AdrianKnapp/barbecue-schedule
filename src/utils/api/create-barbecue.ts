@@ -5,16 +5,25 @@ type CreateBarbecueProps = {
   barbecue: Partial<BarbecueModel>;
 };
 
-const createBarbecue = async ({ barbecue }: CreateBarbecueProps) => {
+const createBarbecue = async ({
+  barbecue,
+}: CreateBarbecueProps): Promise<{
+  barbecue?: BarbecueModel;
+}> => {
   try {
-    await fetch(`${routes.barbecues}`, {
+    const response = await fetch(`${routes.barbecues}`, {
       method: 'POST',
       body: JSON.stringify({
         ...barbecue,
       }),
     });
+
+    return await response.json();
   } catch (err) {
     console.warn('barbecues-api-error:', err);
+    return {
+      barbecue: undefined,
+    };
   }
 };
 

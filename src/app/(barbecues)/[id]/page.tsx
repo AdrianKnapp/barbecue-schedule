@@ -79,6 +79,11 @@ const Page = ({ params }: PageProps) => {
           <p className="barbecue-title">{barbecue.name}</p>
           <BarbecuePrice price={barbecue.amountRaised} />
         </div>
+        {barbecue.description && barbecue.description.length > 0 ? (
+          <div className="details-row">
+            <p className="barbecue-description">{barbecue.description}</p>
+          </div>
+        ) : null}
       </div>
 
       <BarbecueGuestsList

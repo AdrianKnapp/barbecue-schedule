@@ -13,8 +13,14 @@
     }
   }
 
-  .barbecue-title {
-    @apply font-size-large font-bold max-w-[65%] sm:max-w-[85%];
+  .barbecue {
+    &-title {
+      @apply font-size-large font-bold max-w-[65%] sm:max-w-[85%];
+    }
+
+    &-description {
+      @apply text-sm sm:text-base text-gray-500;
+    }
   }
 
   .barbecue-guests-list-container {

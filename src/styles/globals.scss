@@ -23,3 +23,7 @@
 a {
   @apply underline focus:underline duration-default focus:outline-none focus:ring-1 focus:ring-dark-light;
 }
+
+body {
+  @apply bg-dark-lightest sm:bg-white;
+}

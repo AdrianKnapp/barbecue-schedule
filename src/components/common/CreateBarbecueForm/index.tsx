@@ -3,7 +3,7 @@ import InputText from '@/components/ui/Inputs/InputText';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { type BarbecueModel } from '@/types/barbecue';
 import createBarbecue from '@/utils/api/create-barbecue';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Inputs = {
   name: string;
@@ -19,6 +19,8 @@ type CreateBarbecueFormProps = {
 };
 
 const CreateBarbecueForm = ({ closeModal, handleMutate }: CreateBarbecueFormProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -32,6 +34,7 @@ const CreateBarbecueForm = ({ closeModal, handleMutate }: CreateBarbecueFormProp
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
+      setIsLoading(true);
       const barbecue: Omit<BarbecueModel, '_id' | 'userId'> = {
         name: data.name,
         date: data.date,
@@ -44,14 +47,22 @@ const CreateBarbecueForm = ({ closeModal, handleMutate }: CreateBarbecueFormProp
         },
       };
 
-      await createBarbecue({
+      const response = await createBarbecue({
         barbecue,
       });
 
+      const { barbecue: createdBarbecue } = response;
+
+      if (!createdBarbecue) {
+        throw new Error('Não foi possível criar o churrasco');
+      }
+
       closeModal();
-      handleMutate([barbecue]);
+      handleMutate([createdBarbecue]);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -106,7 +117,9 @@ const CreateBarbecueForm = ({ closeModal, handleMutate }: CreateBarbecueFormProp
           error={errors.priceDrinkNotIncluded}
         />
       </div>
-      <Button type="submit">Concluir</Button>
+      <Button type="submit" loading={isLoading}>
+        Concluir
+      </Button>
     </form>
   );
 };
