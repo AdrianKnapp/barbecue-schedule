@@ -53,6 +53,7 @@ export async function POST(request: Request) {
       { user: user.email },
       {
         status: 200,
+        headers: requestHeaders,
       },
     );
   } catch (err) {
