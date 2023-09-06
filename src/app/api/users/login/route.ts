@@ -46,14 +46,10 @@ export async function POST(request: Request) {
       httpOnly: true,
     });
 
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('user-id', user._id);
-
     return NextResponse.json(
-      { user: user.email },
+      { message: 'Login efetuado com sucesso.' },
       {
         status: 200,
-        headers: requestHeaders,
       },
     );
   } catch (err) {

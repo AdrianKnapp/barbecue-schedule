@@ -4,7 +4,6 @@ import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/Inputs/InputText';
 import { type UserRequestData } from '@/types/user';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
@@ -26,9 +25,6 @@ const loginUser = async ({ email, password }: UserRequestData): Promise<LoginUse
         email,
         password,
       }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
     });
 
     return await response.json();
@@ -44,7 +40,6 @@ const loginUser = async ({ email, password }: UserRequestData): Promise<LoginUse
 const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const {
     register,
@@ -61,16 +56,13 @@ const Login = () => {
       });
 
       const { error: responseError } = response;
-      console.log('🚀 ~ file: page.tsx:64 ~ onSubmit ~ response:', response);
 
       if (responseError) {
-        console.log('🚀 ~ file: page.tsx:67 ~ setting error:', responseError);
         setError(responseError);
         return;
       }
 
-      router.push('/');
-      console.log('🚀 ~ file: page.tsx:74 ~ onSubmit ~ router.push done');
+      window.location.href = '/';
     } catch (err) {
       console.error(err);
       console.warn(err);
